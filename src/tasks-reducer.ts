@@ -1,6 +1,6 @@
 import {TaskStateType} from "./AppWithRedux";
 import {v1} from "uuid";
-import {AddTodoAT, RemoveTodolistAT, todolistId_1, todolistId_2} from "./todolists-reducer";
+import {AddTodoAT, RemoveTodolistAT} from "./todolists-reducer";
 
 
 export type TasksActionsType = RemoveTaskActionType | addTaskActionType| changedTitleTaskActionType | changedStatusTaskActionType | AddTodoAT | RemoveTodolistAT
@@ -30,17 +30,6 @@ export type changedStatusTaskActionType = {
 }
 
 const initialState: TaskStateType = {
-    // [todolistId_1]: [
-    //     {id: v1(), title: "HTML&CSS", isDone: true},
-    //     {id: v1(), title: "JS", isDone: true},
-    //     {id: v1(), title: "CSS", isDone: true},
-    //     {id: v1(), title: "English A2", isDone: true},
-    // ],
-    // [todolistId_2]: [
-    //     {id: v1(), title: "React", isDone: false},
-    //     {id: v1(), title: "Angular", isDone: false},
-    //     {id: v1(), title: "Backend", isDone: false},
-    //     {id: v1(), title: "English B2", isDone: false}]
 }
 
 export const TasksReducer = (state:TaskStateType=initialState,action:TasksActionsType):TaskStateType => {

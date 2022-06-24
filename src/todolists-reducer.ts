@@ -41,8 +41,6 @@ export let todolistId_2 = v1()
 // return initialState
 // }
 let initialState1: Array<TodolistType> = [
-    // {id: todolistId_1, addedDate:'898348394',order: 12, title: 'What to almost learn', filter: 'All'},
-    // {id: todolistId_2, addedDate: '934834834', order: 45, title: 'What to want to learn', filter: 'All'}
 ]
 
     // .then((res)=>{[...initialState,res.data]})
