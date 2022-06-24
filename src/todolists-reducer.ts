@@ -1,5 +1,7 @@
 import {FilterValuesType, TodolistType} from "./AppWithRedux";
 import {v1} from "uuid";
+import {todolistAPI} from "./stories/src/api/todolist-api";
+import {useEffect, useState} from "react";
 
 export type TodolistTypeAC = RemoveTodolistAT|AddTodoAT|ChangeTodolistTitleAT|ChangeFilterTodolistAT
 export type RemoveTodolistAT = {
@@ -27,17 +29,31 @@ export type ChangeFilterTodolistAT = {
 export let todolistId_1 = v1()
 export let todolistId_2 = v1()
 
-const initialState: Array<TodolistType> = [
-    // {id: todolistId_1, title: 'What to almost learn', filter: 'All'},
-    // {id: todolistId_2, title: 'What to want to learn', filter: 'All'}
+// const getState = () => {
+//     const [initialState, setInitialState] = useState<Array<TodolistType>>([])
+//     useEffect(() => {
+//         todolistAPI.getTodolist()
+//             .then((res) => {
+//                 setInitialState([...res.data].map((todo) => ({...todo, filter: 'All'})))
+//
+//                 // setInitialState1(res.data);
+//             })
+//
+//     }, [])
+// return initialState
+// }
+let initialState1: Array<TodolistType> = [
+    {id: todolistId_1, addedDate:'898348394',order: 12, title: 'What to almost learn', filter: 'All'},
+    {id: todolistId_2, addedDate: '934834834', order: 45, title: 'What to want to learn', filter: 'All'}
 ]
 
-export const TodolistsReducer = (state:Array<TodolistType>=initialState,action:TodolistTypeAC):Array<TodolistType> => {
+    // .then((res)=>{[...initialState,res.data]})
+export const TodolistsReducer = (state:Array<TodolistType>=initialState1,action:TodolistTypeAC):Array<TodolistType> => {
   switch (action.type) {
       case "REMOVE-TODOLIST":
           return state.filter((tl) => tl.id !== action.id)
       case "ADD-TODOLIST":
-          let newState: TodolistType = {id: action.todolistId, title: action.title, filter: 'All'}
+          let newState: TodolistType = {id: action.todolistId, addedDate: '5478488923',order: 15,title: action.title, filter: 'All'}
           return [newState,...state]
       case "CHANGE-TODOLIST-TITLE":
           let todolist = state.find(tl => tl.id === action.id)

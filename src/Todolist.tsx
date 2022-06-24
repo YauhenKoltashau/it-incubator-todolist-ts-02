@@ -31,6 +31,8 @@ export const Todolist = React.memo(function (props: PropsType) {
     const dispatch = useDispatch()
     const tasks = useSelector<AppRootState,Array<TaskType>>(state => state.tasks[props.todolistId])
 
+
+
 //tasks
     const changeFilterHandler = useCallback((filter: FilterValuesType, todolistId: string) => {
         const action = changeFilterTodolistAC(filter,todolistId)
