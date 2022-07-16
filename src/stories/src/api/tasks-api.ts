@@ -15,30 +15,46 @@ const instance = axios.create({
 
 export const taskAPI = {
     updateTask(todolistId: string, taskId: string, title: string) {
-        const promise = instance.put<ResponseType<{ item: TaskType }>>(`/todo-lists/${todolistId}/tasks/${taskId}`, {title})
-        return promise
+        return  instance.put<ResponseType<{ item: TaskType }>>(`/todo-lists/${todolistId}/tasks/${taskId}`, {title})
     },
     getTasks(todolistId: string) {
-        const promise = instance.get<Array<TaskType>>(`todo-lists/${todolistId}/tasks`)
-        return promise
+        return instance.get<ResponseType<TaskResponseType>>(`todo-lists/${todolistId}/tasks`)
     },
     createTask(todolistId: string, title: string) {
-        const promise = instance.post<ResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks`, {title})
-        return promise
+        return instance.post<ResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks`, {title})
     },
     deleteTask(todolistId: string, taskId: string) {
-        const promise = instance.delete<ResponseType<{}>>(`/todo-lists/${todolistId}/tasks/${taskId}`)
-        return promise
+        return  instance.delete<ResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`)
     }
 }
 
 export type TaskType = {
     id: string
     title: string
-    description: boolean
+    description: null | string
+    todoListId: string,
+    order: number,
+    status: number,
+    priority: number,
+    startDate: null | string,
+    deadline: null | string,
+    addedDate: string,
 }
+export type TaskUpdateModelType = {
+    id: string
+    title: string
+    description: null | string
+    todoListId: string,
+    priority: number,
+}
+type TaskResponseType = {
+    item: TaskType[],
+    totalCount: number,
+    error: null | string
+}
+
 type CreateTaskResponseType = {
-    data: { item: TaskType }
+    data: TaskResponseType
     fieldsErrors: []
     messages: []
     resultCode: number
@@ -57,7 +73,7 @@ type DeleteTaskResponseType = {
 }
 
 
-export type ResponseType<T> = {
+export type ResponseType<T={}> = {
     data: T
     fieldsErrors: []
     messages: []
