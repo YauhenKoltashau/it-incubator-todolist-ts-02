@@ -1,7 +1,7 @@
 import {v1} from "uuid";
 
-import {FilterValuesType, TodolistType} from "./AppWithRedux";
-import {addTodolistAC, TodolistsReducer} from "./todolists-reducer";
+import {TodolistType} from "./AppWithRedux";
+import {addTodolistAC, FilterValuesType, TodolistsReducer} from "./todolists-reducer";
 
 test('correct todolist should be reducer',()=>{
     let todolistId_1 = v1()
@@ -48,7 +48,7 @@ test('correct todolist should change its name', () => {
     let newTodolistTitle = "New Todolist";
 
     const startState: Array<TodolistType> = [
-        {id: todolistId1, addedDate:"220315", order: 3, title: 'What to almost learn', filter: 'All'},
+        {id: todolistId1, addedDate:"220315", order: 3, title: 'What to learn', filter: 'All'},
         {id: todolistId2,addedDate:"220315", order: 4, title: 'What to want to learn', filter: 'All'}
     ]
     const action = {

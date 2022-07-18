@@ -1,20 +1,21 @@
 import React, {useCallback} from 'react';
 import './App.css';
-import {TaskType, Todolist} from "./Todolist";
+import {Todolist} from "./Todolist";
 import {AddItemForm} from "./AddItemForm";
 import {AppBar, Button, IconButton, Typography, Toolbar, Container, Grid, Paper} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
 import {
     addTodolistAC,
     changeFilterTodolistAC,
-    changeTitleTodolistAC,
-    removeTodolistAC,
+    changeTitleTodolistAC, FilterValuesType,
+    removeTodolistAC, TodolistDomainType,
 } from "./todolists-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "./store";
+import {TaskType} from "./stories/src/api/tasks-api";
 
 
-export type FilterValuesType = "All" | "Active" | "Completed"
+
 export type TodolistType = {
     id: string
     addedDate: string
@@ -31,7 +32,7 @@ const AppWithRedux = React.memo(function () {
     console.log('AppWR is render')
     //BLL:
     const dispatch = useDispatch()
-    const todolists = useSelector<AppRootState,Array<TodolistType>>(state => state.todolists)
+    const todolists = useSelector<AppRootState,Array<TodolistDomainType>>(state => state.todolists)
 
 //todolists
 

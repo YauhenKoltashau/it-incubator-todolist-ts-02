@@ -6,16 +6,16 @@ let todolistId_2 = v1()
 
 const startState = {
     [todolistId_1]: [
-        {id: v1(), title: "HTML&CSS", isDone: true},
-        {id: v1(), title: "JS", isDone: true},
-        {id: v1(), title: "CSS", isDone: true},
-        {id: v1(), title: "English A2", isDone: true},
+        {id: v1(), title: "HTML&CSS", status:1, addedDate:'', startDate:'',order: 1,deadline: '', description: '', priority:0,todoListId:todolistId_1},
+        {id: v1(), title: "JS",status:1, addedDate:'', startDate:'',order: 1,deadline: '', description: '', priority:0,todoListId:todolistId_1},
+        {id: v1(), title: "CSS", status:1, addedDate:'', startDate:'',order: 1,deadline: '', description: '', priority:0,todoListId:todolistId_1},
+        {id: v1(), title: "English A2", status:1, addedDate:'', startDate:'',order: 1,deadline: '', description: '', priority:0,todoListId:todolistId_1},
     ],
     [todolistId_2]: [
-        {id: v1(), title: "React", isDone: false},
-        {id: v1(), title: "Angular", isDone: false},
-        {id: v1(), title: "Backend", isDone: false},
-        {id: v1(), title: "English B2", isDone: false}]
+        {id: v1(), title: "React", status:1, addedDate:'', startDate:'',order: 1,deadline: '', description: '', priority:0,todoListId:todolistId_2},
+        {id: v1(), title: "Angular",status:1, addedDate:'', startDate:'',order: 1,deadline: '', description: '', priority:0,todoListId:todolistId_2},
+        {id: v1(), title: "Backend", status:1, addedDate:'', startDate:'',order: 1,deadline: '', description: '', priority:0,todoListId:todolistId_2},
+        {id: v1(), title: "English B2", status:1, addedDate:'', startDate:'',order: 1,deadline: '', description: '', priority:0,todoListId:todolistId_2}]
 }
 test('correct task should be deleted from correct array', () => {
 
@@ -49,11 +49,11 @@ test('title correct task should be changed from correct array', () => {
 
 test('status correct task should be changed from correct array', () => {
 
-    const action = changedStatusTaskAC(startState[todolistId_2][0].id,true, todolistId_2);
+    const action = changedStatusTaskAC(startState[todolistId_2][0].id,2, todolistId_2);
     const endState = TasksReducer(startState, action)
 
     expect(endState).not.toBe(startState)
     expect(endState[todolistId_2].length).toBe(4)
-    expect(endState[todolistId_2][0].isDone).toBe(true)
+    expect(endState[todolistId_2][0].status).toBe(2)
 });
 

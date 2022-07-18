@@ -1,5 +1,4 @@
 import React, {useCallback} from 'react';
-import {FilterValuesType} from "./AppWithRedux";
 import {AddItemForm} from "./AddItemForm";
 import {EditableItem} from "./EditableItem";
 import {Button, IconButton, Paper} from "@material-ui/core";
@@ -7,15 +6,11 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "./store";
 import {addTaskAC, changedStatusTaskAC, changedTitleTaskAC, removeTaskAC} from "./tasks-reducer";
-import {changeFilterTodolistAC} from "./todolists-reducer";
+import {changeFilterTodolistAC, FilterValuesType} from "./todolists-reducer";
 import {Task} from "./Task";
+import {TaskStatuses, TaskType} from "./stories/src/api/tasks-api";
 
 
-export type TaskType = {
-    id: string
-    title: string
-    isDone: boolean
-}
 
 type PropsType = {
     title: string
@@ -54,13 +49,13 @@ export const Todolist = React.memo(function (props: PropsType) {
 
     let changeFilter = tasks
     if (props.filter === 'Active') {
-        changeFilter = changeFilter.filter((el) => !el.isDone)
+        changeFilter = changeFilter.filter((el) => !el.status)
     }
     if (props.filter === 'Completed') {
-        changeFilter = changeFilter.filter((el) => el.isDone)
+        changeFilter = changeFilter.filter((el) => el.status)
     }
-    const checkboxHandler = useCallback((tId: string, checkedValue: boolean, todolistId: string) => {
-        dispatch(changedStatusTaskAC(tId, checkedValue,todolistId))
+    const checkboxHandler = useCallback((tId: string, status: TaskStatuses, todolistId: string) => {
+        dispatch(changedStatusTaskAC(tId, status,todolistId))
     },[dispatch])
 
     const changeTitleTask = useCallback((title: string, taskID: string) => {

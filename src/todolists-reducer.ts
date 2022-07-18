@@ -1,4 +1,4 @@
-import {FilterValuesType, TodolistType} from "./AppWithRedux";
+import {TodolistType} from "./AppWithRedux";
 import {v1} from "uuid";
 
 export type TodolistTypeAC = RemoveTodolistAT|AddTodoAT|ChangeTodolistTitleAT|ChangeFilterTodolistAT
@@ -21,7 +21,6 @@ export type ChangeFilterTodolistAT = {
     type: "CHANGE-TODOLIST-FILTER"
     filter: FilterValuesType
     id: string
-
 }
 
 export let todolistId_1 = v1()
@@ -40,16 +39,15 @@ export let todolistId_2 = v1()
 //     }, [])
 // return initialState
 // }
-let initialState1: Array<TodolistType> = [
-]
+let initialState1: Array<TodolistDomainType> = []
 
     // .then((res)=>{[...initialState,res.data]})
-export const TodolistsReducer = (state:Array<TodolistType>=initialState1,action:TodolistTypeAC):Array<TodolistType> => {
+export const TodolistsReducer = (state:Array<TodolistDomainType>=initialState1,action:TodolistTypeAC):Array<TodolistDomainType> => {
   switch (action.type) {
       case "REMOVE-TODOLIST":
           return state.filter((tl) => tl.id !== action.id)
       case "ADD-TODOLIST":
-          let newState: TodolistType = {id: action.todolistId, addedDate: '5478488923',order: 15,title: action.title, filter: 'All'}
+          let newState: TodolistType = {id: action.todolistId, addedDate: '5478488923',order: 0,title: action.title, filter: 'All'}
           return [newState,...state]
       case "CHANGE-TODOLIST-TITLE":
           let todolist = state.find(tl => tl.id === action.id)
@@ -81,4 +79,8 @@ export const changeFilterTodolistAC = (filter:FilterValuesType, id:string): Chan
     return { type: 'CHANGE-TODOLIST-FILTER', id: id, filter: filter}
 }
 
+export type FilterValuesType = "All" | "Active" | "Completed"
+export type TodolistDomainType = TodolistType & {
+    filter: FilterValuesType
+}
 

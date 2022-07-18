@@ -1,10 +1,11 @@
 import React, {ChangeEvent} from "react";
 import Checkbox from '@material-ui/core/Checkbox'
+import {TaskStatuses} from "../stories/src/api/tasks-api";
 
 type CheckBoxType = {
-    isDone: boolean
+    checked: boolean
     type: string
-    callBack: (checkedValue: boolean) => void
+    callBack: (value: boolean) => void
 }
 
 export const NewCheckBox = (props: CheckBoxType) => {
@@ -13,7 +14,7 @@ export const NewCheckBox = (props: CheckBoxType) => {
     }
     return (
         <Checkbox
-            checked={props.isDone}
+            checked={props.checked}
             onChange={onChangeHandler}
             size="small"
             inputProps={{ 'aria-label': 'secondary checkbox' }}
