@@ -14,8 +14,8 @@ const instance = axios.create({
 })
 
 export const taskAPI = {
-    updateTask(todolistId: string, taskId: string, title: string) {
-        return  instance.put<ResponseType<{ item: TaskType }>>(`/todo-lists/${todolistId}/tasks/${taskId}`, {title})
+    updateTask(todolistId: string, taskId: string, model:UpdateTaskModelType ) {
+        return  instance.put<ResponseType<{ item: TaskType }>>(`/todo-lists/${todolistId}/tasks/${taskId}`, model)
     },
     getTasks(todolistId: string) {
         return instance.get<ResponseType<TaskResponseType>>(`todo-lists/${todolistId}/tasks`)
@@ -52,12 +52,19 @@ export type TaskType = {
     deadline: null | string,
     addedDate: string,
 }
+export type UpdateTaskModelType = {
+    title: string,
+    description: string,
+    status: number,
+    priority: number,
+    startDate: string,
+    deadline: string,
+}
 type TaskResponseType = {
     item: TaskType[],
     totalCount: number,
     error: null | string
 }
-
 type CreateTaskResponseType = {
     data: TaskResponseType
     fieldsErrors: []
