@@ -1,14 +1,15 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {AddItemForm} from "./AddItemForm";
 import {EditableItem} from "./EditableItem";
 import {Button, IconButton, Paper} from "@material-ui/core";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "./stories/src/app/store";
-import {addTaskAC, changedStatusTaskAC, changedTitleTaskAC, removeTaskAC} from "./tasks-reducer";
+import {addTaskAC, changedStatusTaskAC, changedTitleTaskAC, fetchTasksThunk, removeTaskAC} from "./tasks-reducer";
 import {changeFilterTodolistAC, FilterValuesType} from "./todolists-reducer";
 import {Task} from "./Task";
 import {TaskStatuses, TaskType} from "./stories/src/api/tasks-api";
+import {useAppDispatch, useAppSelector} from "./stories/src/app/hooks";
 
 
 
@@ -23,8 +24,12 @@ type PropsType = {
 
 export const Todolist = React.memo(function (props: PropsType) {
     console.log('Todolist is rendered')
-    const dispatch = useDispatch()
-    const tasks = useSelector<AppRootState,Array<TaskType>>(state => state.tasks[props.todolistId])
+    const dispatch = useAppDispatch()
+    // const tasks1 = useSelector<AppRootState,Array<TaskType>>(state => state.tasks[props.todolistId])
+    const tasks = useAppSelector(state => state.tasks[props.todolistId])
+    useEffect(()=>{
+        dispatch(fetchTasksThunk(props.todolistId))
+    },[])
 
 
 

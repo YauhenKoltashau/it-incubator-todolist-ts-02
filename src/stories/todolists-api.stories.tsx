@@ -84,6 +84,7 @@ export const GetTasks = () => {
         //2a967033-9535-4689-853e-0c0d186c5ebe
         taskAPI.getTasks(todolistId)
             .then((res) => {
+                debugger
                 setState(res.data);
             })
     }

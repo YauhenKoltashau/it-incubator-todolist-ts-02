@@ -18,7 +18,7 @@ export const taskAPI = {
         return  instance.put<ResponseType<{ item: TaskType }>>(`/todo-lists/${todolistId}/tasks/${taskId}`, model)
     },
     getTasks(todolistId: string) {
-        return instance.get<ResponseType<TaskResponseType>>(`todo-lists/${todolistId}/tasks`)
+        return instance.get<TaskResponseType>(`todo-lists/${todolistId}/tasks`)
     },
     createTask(todolistId: string, title: string) {
         return instance.post<ResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks`, {title})
@@ -61,7 +61,7 @@ export type UpdateTaskModelType = {
     deadline: string,
 }
 type TaskResponseType = {
-    item: TaskType[],
+    items: TaskType[],
     totalCount: number,
     error: null | string
 }

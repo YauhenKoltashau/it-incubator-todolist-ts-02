@@ -9,10 +9,7 @@ import {
     changeTitleTodolistAC, fetchTodolistsThunk,
     removeTodolistAC, setTodolistsAC, TodolistDomainType,
 } from "./todolists-reducer";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootState} from "./stories/src/app/store";
 import {TaskType} from "./stories/src/api/tasks-api";
-import {todolistAPI} from "./stories/src/api/todolist-api";
 import {useAppDispatch, useAppSelector} from "./stories/src/app/hooks";
 ;
 
