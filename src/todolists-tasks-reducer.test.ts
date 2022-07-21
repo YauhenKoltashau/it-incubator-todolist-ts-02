@@ -1,11 +1,17 @@
-import {TaskStateType, TodolistType} from "./AppWithRedux";
-import {addTodolistAC, removeTodolistAC, TodolistsReducer} from "./todolists-reducer";
+import {TaskStateType} from "./AppWithRedux";
+import {
+    addTodolistAC,
+    removeTodolistAC,
+    setTodolistsAC,
+    TodolistDomainType,
+    TodolistsReducer
+} from "./todolists-reducer";
 import {TasksReducer} from "./tasks-reducer";
 import {TaskPriorities, TaskStatuses} from "./stories/src/api/tasks-api";
 
 test('new array should be added when new todolist is added', () => {
     const startTasksState: TaskStateType = {};
-    const startTodolistsState: Array<TodolistType> = [];
+    const startTodolistsState: Array<TodolistDomainType> = [];
 
     const action = addTodolistAC("new todolist");
 
@@ -44,6 +50,19 @@ test('todolist must have be deleted',()=>{
 
     expect(keys.length).toBe(1);
     expect(endState["todolistId2"]).not.toBeDefined();
-
-
 })
+
+test('empty arrays should be added when the todolists set',()=>{
+    const action = setTodolistsAC([
+        {id: 'todolistId_1', addedDate:"220315", order: 3, title: 'What to almost learn'},
+        {id: 'todolistId_2',addedDate:"220315", order: 4, title: 'What to want to learn'}
+    ])
+    const endState = TasksReducer({},action)
+    const keys = Object.keys(endState)
+    expect(keys.length).toBe(2)
+    expect(endState['todolistId_1']).toBeDefined()
+    expect(endState['todolistId_2']).toBeDefined()
+    expect(endState['todolistId_1']).toStrictEqual([])
+    expect(endState['todolistId_2']).toStrictEqual([])
+})
+

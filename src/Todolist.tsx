@@ -4,7 +4,7 @@ import {EditableItem} from "./EditableItem";
 import {Button, IconButton, Paper} from "@material-ui/core";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootState} from "./store";
+import {AppRootState} from "./stories/src/app/store";
 import {addTaskAC, changedStatusTaskAC, changedTitleTaskAC, removeTaskAC} from "./tasks-reducer";
 import {changeFilterTodolistAC, FilterValuesType} from "./todolists-reducer";
 import {Task} from "./Task";

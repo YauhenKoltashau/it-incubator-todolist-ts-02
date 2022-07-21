@@ -31,7 +31,7 @@ export const todolistAPI = {
         return promise
     }
 }
-type TodolistType= {
+export type TodolistType= {
     id: string
     addedDate: string
     order: number
