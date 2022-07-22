@@ -13,7 +13,7 @@ test('new array should be added when new todolist is added', () => {
     const startTasksState: TaskStateType = {};
     const startTodolistsState: Array<TodolistDomainType> = [];
 
-    const action = addTodolistAC("new todolist");
+    const action = addTodolistAC({id:"todolistId", title: "new todolist", addedDate: '', order: 0});
 
     const endTasksState = TasksReducer(startTasksState, action)
     const endTodolistsState = TodolistsReducer(startTodolistsState, action)
@@ -23,8 +23,8 @@ test('new array should be added when new todolist is added', () => {
     const idFromTasks = keys[0]
 
     expect(keys.length).toBe(1);
-    expect(idFromTasks).toBe(action.todolistId)
-    expect(endTodolistsState[0].id).toBe(action.todolistId)
+    expect(idFromTasks).toBe(action.todolist.id)
+    expect(endTodolistsState[0].id).toBe("todolistId")
 });
 
 test('todolist must have be deleted',()=>{

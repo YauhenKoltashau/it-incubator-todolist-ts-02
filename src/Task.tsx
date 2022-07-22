@@ -11,7 +11,7 @@ type TaskPropsType = {
     task:TaskType
     todolistId:string
     onClickRemoveTaskHandler:(taksId: string, todolistId: string)=>void
-    checkboxHandler:(taskId:string,status: TaskStatuses, todoloistId: string)=>void
+    checkboxHandler:( todoloistId: string, taskId:string,status: TaskStatuses)=>void
     changeTitleTask: (title: string,taskId: string)=>void
 }
 export const Task = React.memo((props:TaskPropsType) => {
@@ -20,7 +20,7 @@ const changeTitleTask = (title: string) => {
 }
 const changeStatusTask =useCallback((e: ChangeEvent<HTMLInputElement>)=>{
     let newIsDoneValue =e.currentTarget.checked
-    props.checkboxHandler(props.task.id,newIsDoneValue?TaskStatuses.Completed:TaskStatuses.New, props.todolistId)
+    props.checkboxHandler( props.todolistId, props.task.id,newIsDoneValue?TaskStatuses.Completed:TaskStatuses.New)
 },[props.task.id,props.todolistId])
     return (
         <div className={props.task.status === TaskStatuses.Completed ? styles.isDone : ""}>

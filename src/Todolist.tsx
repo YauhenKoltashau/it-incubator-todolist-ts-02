@@ -5,10 +5,17 @@ import {Button, IconButton, Paper} from "@material-ui/core";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "./stories/src/app/store";
-import {addTaskAC, changedStatusTaskAC, changedTitleTaskAC, fetchTasksThunk, removeTaskAC} from "./tasks-reducer";
+import {
+    addTaskAC, addTaskThunk,
+    changedStatusTaskAC,
+    changedTitleTaskAC, changeTaskStatusThunk, changeTitleTaskThunk,
+    deleteTaskThunk,
+    fetchTasksThunk,
+    removeTaskAC, updateTaskThunk
+} from "./tasks-reducer";
 import {changeFilterTodolistAC, FilterValuesType} from "./todolists-reducer";
 import {Task} from "./Task";
-import {TaskStatuses, TaskType} from "./stories/src/api/tasks-api";
+import {TaskStatuses, TaskType, UpdateTaskModelType} from "./stories/src/api/tasks-api";
 import {useAppDispatch, useAppSelector} from "./stories/src/app/hooks";
 
 
@@ -19,7 +26,7 @@ type PropsType = {
     // changeFilterHandler: (filterValue: FilterValuesType, todolistID: string) => void
     filter: FilterValuesType
     removeTodolist: (todolistId: string) => void
-    changeTodolistTitle: (title: string, tlId: string) => void
+    changeTodolistTitle: ( tlId: string,title: string,) => void
 }
 
 export const Todolist = React.memo(function (props: PropsType) {
@@ -44,12 +51,20 @@ export const Todolist = React.memo(function (props: PropsType) {
     },[props.changeTodolistTitle,props.todolistId])
 
     const onClickRemoveTaskHandler = useCallback((taksId: string, todolistId: string) => {
-        dispatch(removeTaskAC(taksId,todolistId))
+        dispatch(deleteTaskThunk(todolistId, taksId))
     },[dispatch])
 
     const addTask = useCallback((title: string) => {
-        dispatch(addTaskAC(title, props.todolistId))
+        dispatch(addTaskThunk(props.todolistId, title))
+    },[dispatch])
 
+    const checkboxHandler = useCallback(( todolistId: string, taskID: string, status: TaskStatuses) => {
+        dispatch(updateTaskThunk(todolistId, taskID, {status}))
+    },[dispatch])
+
+    const changeTitleTask = useCallback((title: string, taskID: string) => {
+
+        dispatch(updateTaskThunk(props.todolistId, taskID, {title} ))
     },[dispatch])
 
     let changeFilter = tasks
@@ -59,13 +74,7 @@ export const Todolist = React.memo(function (props: PropsType) {
     if (props.filter === 'Completed') {
         changeFilter = changeFilter.filter((el) => el.status)
     }
-    const checkboxHandler = useCallback((tId: string, status: TaskStatuses, todolistId: string) => {
-        dispatch(changedStatusTaskAC(tId, status,todolistId))
-    },[dispatch])
 
-    const changeTitleTask = useCallback((title: string, taskID: string) => {
-        dispatch(changedTitleTaskAC(title, taskID, props.todolistId))
-    },[dispatch])
 
     return <div>
         <Paper elevation={2} style={{textAlign: 'center'}}>

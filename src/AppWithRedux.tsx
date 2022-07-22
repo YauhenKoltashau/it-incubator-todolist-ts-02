@@ -5,9 +5,9 @@ import {AddItemForm} from "./AddItemForm";
 import {AppBar, Button, IconButton, Typography, Toolbar, Container, Grid, Paper} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
 import {
-    addTodolistAC,
-    changeTitleTodolistAC, fetchTodolistsThunk,
-    removeTodolistAC, setTodolistsAC, TodolistDomainType,
+    addTodolistThunk,
+    changeTitleTodolistAC, changeTodolistTitleThunk, fetchTodolistsThunk,
+    removeTodolistThunk
 } from "./todolists-reducer";
 import {TaskType} from "./stories/src/api/tasks-api";
 import {useAppDispatch, useAppSelector} from "./stories/src/app/hooks";
@@ -34,16 +34,15 @@ const AppWithRedux = React.memo(function () {
 //todolists
 
     const removeTodolist = useCallback((todolistId: string) => {
-        const action = removeTodolistAC(todolistId)
+        const action = removeTodolistThunk(todolistId)
         dispatch(action)
-
     },[])
     const addTodolist = useCallback((title:string) => {
-        const action = addTodolistAC(title)
+        const action = addTodolistThunk(title)
         dispatch(action)
     },[])
-    const changeTodolistTitle = useCallback((title: string, tlId: string) => {
-        const action = changeTitleTodolistAC(title,tlId)
+    const changeTodolistTitle = useCallback((title: string, todolistId: string) => {
+        const action = changeTodolistTitleThunk(todolistId,title)
         dispatch(action)
     },[])
 
