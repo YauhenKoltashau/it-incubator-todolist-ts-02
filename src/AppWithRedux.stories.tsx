@@ -11,6 +11,6 @@ export default {
 
 export const TestAppWithRedux = () => {
     return(
-            <AppWithRedux demo={true}/>
+            <AppWithRedux demo={false}/>
     )
 }

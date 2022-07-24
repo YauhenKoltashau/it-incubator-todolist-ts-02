@@ -2,6 +2,7 @@ import {v1} from "uuid";
 import {todolistAPI, TodolistType} from "./stories/src/api/todolist-api";
 import {AppActionsType, AppThunk} from "./stories/src/app/store";
 import {AppStatusType, setAppStatusAC} from "./app-reducer";
+import {handleServerAppError, handleServerNetworkError} from "./stories/src/utils/error-utils";
 
 export type TodolistTypeAC =
     | ReturnType<typeof removeTodolistAC>
@@ -76,6 +77,9 @@ export const fetchTodolistsThunk = (): AppThunk => (dispatch) => {
             dispatch(setAppStatusAC('succeded'))
 
         })
+        .catch((error)=>{
+            handleServerNetworkError(error, dispatch)
+        })
 }
 export const removeTodolistThunk = (todolistId: string): AppThunk => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
@@ -85,9 +89,12 @@ export const removeTodolistThunk = (todolistId: string): AppThunk => (dispatch) 
             if(res.data.resultCode === 0){
                 dispatch(removeTodolistAC(todolistId))
                 dispatch(setAppStatusAC('succeded'))
-            }
-
-
+            } else (
+                handleServerAppError(res.data, dispatch)
+            )
+        })
+        .catch((error)=>{
+            handleServerNetworkError(error, dispatch)
         })
 }
 export const addTodolistThunk = (title: string): AppThunk => (dispatch) => {
@@ -97,9 +104,12 @@ export const addTodolistThunk = (title: string): AppThunk => (dispatch) => {
             if(res.data.resultCode === 0){
                 dispatch(addTodolistAC(res.data.data.item))
                 dispatch(setAppStatusAC('succeded'))
-            }
-
-
+            }else (
+                handleServerAppError(res.data, dispatch)
+            )
+        })
+        .catch((error)=>{
+            handleServerNetworkError(error, dispatch)
         })
 }
 export const changeTodolistTitleThunk = (todolistId: string, title: string ): AppThunk => (dispatch) => {
@@ -109,9 +119,12 @@ export const changeTodolistTitleThunk = (todolistId: string, title: string ): Ap
             if(res.data.resultCode === 0){
                 dispatch(changeTitleTodolistAC(todolistId,title))
                 dispatch(setAppStatusAC('succeded'))
-            }
-
-
+            }else (
+                handleServerAppError(res.data, dispatch)
+            )
+        })
+        .catch((error)=>{
+            handleServerNetworkError(error, dispatch)
         })
 }
 
