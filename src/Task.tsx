@@ -32,7 +32,6 @@ const changeStatusTask =useCallback((e: ChangeEvent<HTMLInputElement>)=>{
                 checked={props.task.status === TaskStatuses.Completed}
                 onChange={changeStatusTask}
                 color={'primary'}
-
             />
             <EditableItem title={props.task.title} changeTitleTask={changeTitleTask}/>
             <IconButton color={'inherit'} size={'small'} disableRipple onClick={() => props.onClickRemoveTaskHandler(props.task.id, props.todolistId)}><ClearIcon/></IconButton>

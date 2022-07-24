@@ -12,3 +12,8 @@ export const TestAddItemForm = () => {
         <AddItemForm addItem={callBack}name={'1'}/>
     )
 }
+export const TestAddItemFormDisabled = () => {
+    return(
+        <AddItemForm disabled={true} addItem={callBack}name={'1'}/>
+    )
+}

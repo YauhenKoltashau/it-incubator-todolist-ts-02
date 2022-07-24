@@ -87,8 +87,8 @@ type DeleteTaskResponseType = {
 
 export type ResponseType<T={}> = {
     data: T
-    fieldsErrors: []
-    messages: []
+    fieldsErrors: string[]
+    messages: string[]
     resultCode: number
 
 }

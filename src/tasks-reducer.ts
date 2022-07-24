@@ -4,6 +4,7 @@ import {addTodolistAC, removeTodolistAC, setTodolistsAC} from "./todolists-reduc
 import {taskAPI, TaskPriorities, TaskStatuses, TaskType, UpdateTaskModelType} from "./stories/src/api/tasks-api";
 import {AppActionsType, AppRootState, AppThunk} from "./stories/src/app/store";
 import {todolistAPI} from "./stories/src/api/todolist-api";
+import {setAppErrorAC, setAppStatusAC} from "./app-reducer";
 
 
 export type TasksActionsType =
@@ -66,9 +67,12 @@ export const setTaskAC = (todolistId:string, tasks:Array<TaskType> ) => ({ type:
 export const updateTaskAC = (todolistId:string, taskId: string,domainModel:UpdateDomainTaskModelType  ) => ({ type: 'UPDATE-TASK', todolistId, taskId, domainModel } as const)
 
 export const fetchTasksThunk =(todolistId: string):AppThunk => (dispatch) => {
+    dispatch(setAppStatusAC("loading"))
+    debugger
     taskAPI.getTasks(todolistId)
         .then((res) => {
             dispatch(setTaskAC(todolistId,res.data.items))
+            dispatch(setAppStatusAC("succeded"))
         })
 }
 export const deleteTaskThunk =(todolistId: string,taskId: string):AppThunk => (dispatch) => {
@@ -81,11 +85,22 @@ export const deleteTaskThunk =(todolistId: string,taskId: string):AppThunk => (d
         })
 }
 export const addTaskThunk =(todolistId: string, title: string):AppThunk => (dispatch) => {
+    dispatch(setAppStatusAC('loading'))
     taskAPI.createTask(todolistId, title)
         .then((res) => {
-            if(res.data.resultCode === 0){
+            if (res.data.resultCode === 0){
                 dispatch(addTaskAC(res.data.data.item))
+                dispatch(setAppStatusAC("succeded"))
+            } else{
+                if(res.data.messages.length){
+                    dispatch(setAppErrorAC(res.data.messages[0]))
+                    dispatch(setAppStatusAC("failed"))
+                }else{
+                    dispatch(setAppErrorAC('some error!'))
+                    dispatch(setAppStatusAC("failed"))
+                }
             }
+
 
         })
 }
@@ -113,6 +128,7 @@ export const changeTitleTaskThunk =(todolistId: string, taskId: string, title: s
 
         })
 }
+
 export const changeTaskStatusThunk =(todolistId: string, taskId: string, status: TaskStatuses):AppThunk => (dispatch,getState:()=>AppRootState) => {
    const state = getState()
     let task = state.tasks[todolistId].find(t => t.id === taskId)
@@ -146,6 +162,7 @@ export type UpdateDomainTaskModelType = {
     startDate?: string,
     deadline?: string,
 }
+
 export const updateTaskThunk =(todolistId: string, taskId: string, domainModel:UpdateDomainTaskModelType):AppThunk => (dispatch,getState:()=>AppRootState) => {
    const state = getState()
     let task = state.tasks[todolistId].find(t => t.id === taskId)
@@ -163,10 +180,12 @@ export const updateTaskThunk =(todolistId: string, taskId: string, domainModel:U
         deadline: task.deadline,
         ...domainModel
     }
+    dispatch(setAppStatusAC("loading"))
     taskAPI.updateTask(todolistId, taskId, apiModel)
         .then((res) => {
             if(res.data.resultCode === 0){
                 dispatch(updateTaskAC(todolistId, taskId, domainModel))
+                dispatch(setAppStatusAC('succeded'))
             }
 
         })

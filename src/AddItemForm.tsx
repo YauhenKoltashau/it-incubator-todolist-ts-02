@@ -8,9 +8,10 @@ import {UniButton} from "./components/Button";
 type AddItemFormType = {
     addItem: (title: string) => void
     name: string
+    disabled?:boolean
 }
 
-export const AddItemForm = React.memo((props: AddItemFormType) => {
+export const AddItemForm = React.memo(({addItem,disabled=false,...props}: AddItemFormType) => {
     console.log('AddItemForm is called')
     const [newTask, setNewTask] = useState('')
     let [error, setError] = useState<string | null>(null)
@@ -28,7 +29,7 @@ export const AddItemForm = React.memo((props: AddItemFormType) => {
     }
     const onClickAddTaskHandler = () => {
         if (newTask.trim() !== "") {
-            props.addItem(newTask.trim())
+            addItem(newTask.trim())
             setNewTask("")
         } else {
             setError("Title is required")
@@ -39,6 +40,7 @@ export const AddItemForm = React.memo((props: AddItemFormType) => {
     return (
         <div>
             <TextField
+                disabled={disabled}
                 label={error ? error : "new name"}
                 variant={"outlined"}
                 value={newTask}
@@ -51,6 +53,7 @@ export const AddItemForm = React.memo((props: AddItemFormType) => {
 
             {newTask ?
                 <Button
+                    disabled={disabled}
                     size={'small'}
                     variant={'text'}
                     color={'primary'}
@@ -59,6 +62,7 @@ export const AddItemForm = React.memo((props: AddItemFormType) => {
                         color={'inherit'}
                         fontSize={'small'}
                     /></Button> : <Button
+                    disabled={disabled}
                     variant={'contained'}
                     onClick={onClickAddTaskHandler}
                 ><BlockIcon/></Button>}

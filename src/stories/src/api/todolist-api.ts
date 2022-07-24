@@ -18,7 +18,7 @@ export const todolistAPI = {
         const promise = instance.put<ResponseType<{}>>(`todo-lists/${todolistId}`, {title})
         return promise
     },
-    getTodolist(){
+    getTodolists(){
         const promise = instance.get<TodolistType[]>('todo-lists')
         return promise
     },
