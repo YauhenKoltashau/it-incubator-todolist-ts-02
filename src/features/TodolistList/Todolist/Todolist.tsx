@@ -1,15 +1,15 @@
 import React, {useCallback, useEffect} from 'react';
-import {AddItemForm} from "./AddItemForm";
-import {EditableItem} from "./EditableItem";
+import {AddItemForm} from "../../../components/AddItemForm";
+import {EditableItem} from "../../../components/EditableItem";
 import {Button, IconButton, Paper} from "@material-ui/core";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import {
     fetchTasksThunk,
-} from "./tasks-reducer";
-import {changeFilterTodolistAC, FilterValuesType, TodolistDomainType} from "./todolists-reducer";
-import {Task} from "./Task";
-import {TaskStatuses} from "./stories/src/api/tasks-api";
-import {useAppDispatch, useAppSelector} from "./stories/src/app/hooks";
+} from "../tasks-reducer";
+import {changeFilterTodolistAC, FilterValuesType, TodolistDomainType} from "../todolists-reducer";
+import {Task} from "../Task/Task";
+import {TaskStatuses} from "../../../api/tasks-api";
+import {useAppDispatch, useAppSelector} from "../../../app/hooks";
 
 
 type PropsType = {

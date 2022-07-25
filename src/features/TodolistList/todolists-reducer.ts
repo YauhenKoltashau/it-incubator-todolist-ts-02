@@ -1,8 +1,8 @@
 import {v1} from "uuid";
-import {todolistAPI, TodolistType} from "./stories/src/api/todolist-api";
-import {AppActionsType, AppThunk} from "./stories/src/app/store";
-import {AppStatusType, setAppStatusAC} from "./app-reducer";
-import {handleServerAppError, handleServerNetworkError} from "./stories/src/utils/error-utils";
+import {todolistAPI, TodolistType} from "../../api/todolist-api";
+import {AppActionsType, AppThunk} from "../../app/store";
+import {AppStatusType, setAppStatusAC} from "../../app/app-reducer";
+import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 
 export type TodolistTypeAC =
     | ReturnType<typeof removeTodolistAC>

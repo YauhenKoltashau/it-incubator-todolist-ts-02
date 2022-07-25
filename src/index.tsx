@@ -2,15 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import AppWithRedux from "./AppWithRedux";
+import AppWithRedux from "./app/AppWithRedux";
 import {Provider} from "react-redux";
-import {store} from "./stories/src/app/store";
-import AppWithReducers from "./AppWithReducers";
+import {store} from "./app/store";
+import {BrowserRouter} from "react-router-dom";
 
 ReactDOM.render(
     <Provider store={store}>
+        <BrowserRouter>
         <AppWithRedux/>
         {/*<AppWithReducers/>*/}
+        </BrowserRouter>
     </Provider>
     , document.getElementById('root'));
 

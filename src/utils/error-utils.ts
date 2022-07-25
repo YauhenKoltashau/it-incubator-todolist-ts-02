@@ -1,4 +1,4 @@
-import { setAppErrorAC, setAppStatusAC} from "../../../app-reducer";
+import { setAppErrorAC, setAppStatusAC} from "../app/app-reducer";
 import {ResponseType} from "../api/tasks-api";
 import {AppDispatch} from "../app/store";
 

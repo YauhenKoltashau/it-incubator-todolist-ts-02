@@ -1,14 +1,9 @@
-import {TaskStateType} from "./AppWithRedux";
-import {v1} from "uuid";
+import {TaskStateType} from "../../app/AppWithRedux";
 import {addTodolistAC, removeTodolistAC, setTodolistsAC} from "./todolists-reducer";
-import {taskAPI, TaskPriorities, TaskStatuses, TaskType, UpdateTaskModelType} from "./stories/src/api/tasks-api";
-import {AppActionsType, AppRootState, AppThunk} from "./stories/src/app/store";
-import {todolistAPI} from "./stories/src/api/todolist-api";
-import {setAppErrorAC, setAppStatusAC} from "./app-reducer";
-import {useAppDispatch} from "./stories/src/app/hooks";
-import {handleServerAppError, handleServerNetworkError} from "./stories/src/utils/error-utils";
-import {Simulate} from "react-dom/test-utils";
-import error = Simulate.error;
+import {taskAPI, TaskPriorities, TaskStatuses, TaskType, UpdateTaskModelType} from "../../api/tasks-api";
+import {AppActionsType, AppRootState, AppThunk} from "../../app/store";
+import { setAppStatusAC} from "../../app/app-reducer";
+import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 
 
 export type TasksActionsType =

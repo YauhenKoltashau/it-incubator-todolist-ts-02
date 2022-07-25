@@ -1,6 +1,6 @@
 import React from "react";
-import {ReduxStoreProviderDecorator} from "./stories/ReduxStoreProviderDecorator";
-import AppWithReducers from "./AppWithReducers";
+import {ReduxStoreProviderDecorator} from "./ReduxStoreProviderDecorator";
+import AppWithReducers from "../app/AppWithReducers";
 
 
 export default {

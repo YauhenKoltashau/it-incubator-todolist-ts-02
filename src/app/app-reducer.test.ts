@@ -2,15 +2,12 @@ import {AppReducer, setAppErrorAC, setAppStatusAC, InitialStateType} from "./app
 let startState:InitialStateType
 beforeEach(()=>{
     startState = {
+        isInitialized: false,
         status: 'idle',
         error: "some error!"
     }
 })
 test('error message should be set',()=>{
-    const startState:InitialStateType = {
-        status: 'idle',
-        error: "some error!"
-    }
     const endState = AppReducer(startState,setAppErrorAC('error'))
     expect(endState).not.toBe(startState)
     expect(endState.error).toBe('error')

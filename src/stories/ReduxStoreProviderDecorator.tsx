@@ -2,17 +2,21 @@ import React from 'react'
 import {Provider} from 'react-redux'
 import {applyMiddleware, combineReducers, createStore} from 'redux'
 
-import {TasksReducer} from "../tasks-reducer";
-import {TodolistsReducer} from "../todolists-reducer";
-import {AppRootState} from "./src/app/store";
-import {TaskPriorities, TaskStatuses} from "./src/api/tasks-api";
-import {AppReducer} from "../app-reducer";
+import {TasksReducer} from "../features/TodolistList/tasks-reducer";
+import {TodolistsReducer} from "../features/TodolistList/todolists-reducer";
+import {AppRootState} from "../app/store";
+import {TaskPriorities, TaskStatuses} from "../api/tasks-api";
+import {AppReducer} from "../app/app-reducer";
 import thunkMiddleware from "redux-thunk";
+import {LoginReducer} from "../features/Login/login-reducer";
+import {AuthReducer} from "../features/Auth/auth-reducer";
 
 const rootReducer = combineReducers({
     tasks: TasksReducer,
     todolists: TodolistsReducer,
-    app: AppReducer
+    app: AppReducer,
+    login: LoginReducer,
+    auth: AuthReducer
 })
 
 const initialGlobalState:AppRootState = {
@@ -32,9 +36,22 @@ const initialGlobalState:AppRootState = {
         ]
     },
     app: {
+        isInitialized: false,
         status:'idle',
         error: null
-    }
+    },
+    login: {
+        email: '',
+        password: '',
+        rememberMe: false
+    },
+    auth: {
+        id: null,
+        login: null,
+        email: null,
+        isAuth: false
+
+    },
 
 };
 

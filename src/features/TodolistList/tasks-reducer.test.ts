@@ -7,7 +7,7 @@ import {
     setTaskAC,
     TasksReducer, updateTaskAC
 } from "./tasks-reducer";
-import {TaskPriorities, TaskStatuses, TaskType} from "./stories/src/api/tasks-api";
+import {TaskPriorities, TaskStatuses, TaskType} from "../../api/tasks-api";
 
 let todolistId_1 = v1()
 let todolistId_2 = v1()
