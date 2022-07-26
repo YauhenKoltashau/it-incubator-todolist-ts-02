@@ -12,7 +12,6 @@ type AddItemFormType = {
 }
 
 export const AddItemForm = React.memo(({addItem,disabled=false,...props}: AddItemFormType) => {
-    console.log('AddItemForm is called')
     const [newTask, setNewTask] = useState('')
     let [error, setError] = useState<string | null>(null)
     const onChangeButtonHandler = (e: ChangeEvent<HTMLInputElement>) => {

@@ -43,7 +43,7 @@ const AppWithRedux = React.memo(function ({demo = false}: PropsType) {
     if (!initializeState) {
         return (
             <Grid container justifyContent={'center'}>
-                <Grid item justifyContent={'center'}>
+                <Grid item>
                     <CircularProgress size={100}/>
                 </Grid>
             </Grid>)

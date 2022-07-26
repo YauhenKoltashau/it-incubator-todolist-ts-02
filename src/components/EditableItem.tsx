@@ -6,7 +6,6 @@ type EditableItemType = {
     changeTitleTask: (title: string) => void
 }
 export const EditableItem = React.memo((props: EditableItemType) => {
-    console.log('Editable')
     let[title, setTitle] = useState(props.title)
     let[editModeItem, setEditModeItem] = useState<editModeItemType>(false)
     const editModeActivate = () => {

@@ -31,14 +31,17 @@ export const TodolistList = ({demo = false}: PropsType) => {
         const action = addTodolistThunk(title)
         dispatch(action)
     }, [])
+
     const removeTodolist = useCallback((todolistId: string) => {
         const action = removeTodolistThunk(todolistId)
         dispatch(action)
     }, [])
+
     const changeTodolistTitle = useCallback((title: string, todolistId: string) => {
         const action = changeTodolistTitleThunk(todolistId, title)
         dispatch(action)
     }, [])
+
     const addTask = useCallback((todolistId: string, title: string) => {
         dispatch(addTaskThunk(todolistId, title))
         // const maxLengthOfTitle = 101
@@ -48,6 +51,7 @@ export const TodolistList = ({demo = false}: PropsType) => {
         //     dispatch(setErrorAC(`not more ${maxLengthOfTitle} simbols!`))
         // }
     }, [dispatch])
+
     const onClickRemoveTaskHandler = useCallback((taksId: string, todolistId: string) => {
         dispatch(deleteTaskThunk(todolistId, taksId))
     }, [dispatch])
@@ -59,8 +63,8 @@ export const TodolistList = ({demo = false}: PropsType) => {
     }, [dispatch])
     const todolistsForRender = todolists.map((tl) => {
             return (
-                <>
-                    <Grid container style={{padding: '20px'}}>
+                <div key={tl.id}>
+                    <Grid container style={{padding: '20px'}} key={tl.id}>
                         <AddItemForm addItem={addTodolist} name={'add todolist'}/>
                     </Grid>
                     <Grid container spacing={7}>
@@ -86,7 +90,7 @@ export const TodolistList = ({demo = false}: PropsType) => {
                             </Paper>
                         </Grid>
                     </Grid>
-                </>
+                </div>
 
             )
         })
@@ -95,7 +99,7 @@ export const TodolistList = ({demo = false}: PropsType) => {
     }
     return (
             <Grid container justifyContent={'center'}>
-                <Grid item justifyContent={'center'}>
+                <Grid item >
                 {todolistsForRender}
                 </Grid>
             </Grid>
