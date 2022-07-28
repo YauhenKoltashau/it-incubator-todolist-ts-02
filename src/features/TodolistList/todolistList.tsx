@@ -16,7 +16,7 @@ import {Navigate} from "react-router-dom";
 type PropsType = {
     demo?: boolean
 }
-export const TodolistList = ({demo = false}: PropsType) => {
+export const TodolistList = React.memo( ({demo = false}: PropsType) => {
     const dispatch = useAppDispatch()
     const todolists = useAppSelector(state => state.todolists)
     const isAuth = useAppSelector(state => state.auth.isAuth)
@@ -61,6 +61,7 @@ export const TodolistList = ({demo = false}: PropsType) => {
     const checkboxHandler = useCallback((todolistId: string, taskID: string, status: TaskStatuses) => {
         dispatch(updateTaskThunk(todolistId, taskID, {status}))
     }, [dispatch])
+
     const todolistsForRender = todolists.map((tl) => {
             return (
                 <div key={tl.id}>
@@ -108,4 +109,4 @@ export const TodolistList = ({demo = false}: PropsType) => {
 
     )
 
-}
+})
