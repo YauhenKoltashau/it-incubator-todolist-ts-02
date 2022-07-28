@@ -20,8 +20,9 @@ export const TodolistList = React.memo( ({demo = false}: PropsType) => {
     const dispatch = useAppDispatch()
     const todolists = useAppSelector(state => state.todolists)
     const isAuth = useAppSelector(state => state.auth.isAuth)
+    console.log('TodolistList')
     useEffect(() => {
-        if (!demo || !isAuth) {
+        if (!demo && isAuth) {
             dispatch(fetchTodolistsThunk())
         }
     }, [])

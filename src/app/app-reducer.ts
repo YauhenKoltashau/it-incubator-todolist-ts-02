@@ -30,16 +30,16 @@ export const AppReducer = (state: InitialStateType = initialState, action: AppAc
 export type AppReducerActionsType =
     | ReturnType<typeof setAppStatusAC>
     | ReturnType<typeof setAppErrorAC>
-    | ReturnType<typeof checkCurrentInitializeAC>
+    | ReturnType<typeof setCurrentInitializeAC>
 
 export const setAppStatusAC = (status: AppStatusType) => ({type: 'APP/SET STATUS', status} as const)
 export const setAppErrorAC = (error: string | null) => ({type: 'APP/SET ERROR', error} as const)
-export const checkCurrentInitializeAC = (value: boolean) => ({type: 'APP/SET INITIALIZE', value} as const)
+export const setCurrentInitializeAC = (value: boolean) => ({type: 'APP/SET INITIALIZE', value} as const)
 
 export const initializeAppThunk = (): AppThunk => (dispatch) => {
     let promise = dispatch(AuthMeThunk())
     Promise.all([promise]).then(() => {
-        dispatch(checkCurrentInitializeAC(true))})
+        dispatch(setCurrentInitializeAC(true))})
     // authAPI.authMe()
     //     .then((res) => {
     //         if (res.data.resultCode === 0) {
