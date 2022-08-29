@@ -7,12 +7,12 @@ const settings = {
     }
 
 }
-
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     ...settings
 })
 
+//api
 export const taskAPI = {
     updateTask(todolistId: string, taskId: string, model:UpdateTaskModelType ) {
         return  instance.put<ResponseType<{ item: TaskType }>>(`/todo-lists/${todolistId}/tasks/${taskId}`, model)
@@ -27,6 +27,8 @@ export const taskAPI = {
         return  instance.delete<ResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`)
     }
 }
+
+//types
 export enum TaskStatuses {
     New = 0,
     InProgress = 1,
@@ -65,26 +67,6 @@ type TaskResponseType = {
     totalCount: number,
     error: null | string
 }
-type CreateTaskResponseType = {
-    data: TaskResponseType
-    fieldsErrors: []
-    messages: []
-    resultCode: number
-}
-type UpdateTaskResponseType = {
-    data: { item: TaskType }
-    fieldsErrors: []
-    messages: []
-    resultCode: number
-}
-type DeleteTaskResponseType = {
-    data: {}
-    fieldsErrors: []
-    messages: []
-    resultCode: number
-}
-
-
 export type ResponseType<T={}> = {
     resultCode: number
     messages: string[]

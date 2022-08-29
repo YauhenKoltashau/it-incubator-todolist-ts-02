@@ -56,9 +56,11 @@ export const TodolistList = React.memo( ({demo = false}: PropsType) => {
     const onClickRemoveTaskHandler = useCallback((taksId: string, todolistId: string) => {
         dispatch(deleteTaskThunk(todolistId, taksId))
     }, [dispatch])
+
     const changeTitleTask = useCallback((todolistId: string, title: string, taskID: string) => {
         dispatch(updateTaskThunk(todolistId, taskID, {title}))
     }, [dispatch])
+
     const checkboxHandler = useCallback((todolistId: string, taskID: string, status: TaskStatuses) => {
         dispatch(updateTaskThunk(todolistId, taskID, {status}))
     }, [dispatch])
@@ -66,9 +68,6 @@ export const TodolistList = React.memo( ({demo = false}: PropsType) => {
     const todolistsForRender = todolists.map((tl) => {
             return (
                 <div key={tl.id}>
-                    <Grid container style={{padding: '20px'}} key={tl.id}>
-                        <AddItemForm addItem={addTodolist} name={'add todolist'}/>
-                    </Grid>
                     <Grid container spacing={7}>
                         <Grid item key={tl.id}>
                             <Paper elevation={2} style={{
@@ -102,6 +101,9 @@ export const TodolistList = React.memo( ({demo = false}: PropsType) => {
     return (
             <Grid container justifyContent={'center'}>
                 <Grid item >
+                    <Grid container style={{padding: '20px'}}>
+                        <AddItemForm addItem={addTodolist} name={'add todolist'}/>
+                    </Grid>
                 {todolistsForRender}
                 </Grid>
             </Grid>

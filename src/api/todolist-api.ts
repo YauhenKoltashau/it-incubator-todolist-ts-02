@@ -7,12 +7,12 @@ const settings = {
     }
 
 }
-
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     ...settings
 })
 
+//api
 export const todolistAPI = {
     updateTodolist(todolistId: string, title: string) {
         const promise = instance.put<ResponseType<{}>>(`todo-lists/${todolistId}`, {title})
@@ -31,34 +31,14 @@ export const todolistAPI = {
         return promise
     }
 }
+
+//types
 export type TodolistType= {
     id: string
     addedDate: string
     order: number
     title: string
 }
-
-type UpdateTodolistResponseType = {
-    resultCode: number
-    messages: Array<string>
-    fieldsErrors: Array<string>
-    data: {}
-}
-type CreateTodolistResponseType = {
-    resultCode: number
-    messages: Array<string>
-    fieldsErrors: Array<string>
-    data: {
-        item: TodolistType
-    }
-}
-type DeleteTodolistResponseType = {
-    resultCode: number
-    messages: Array<string>
-    fieldsErrors: Array<string>
-    data: {}
-}
-
 export type ResponseType<D> = {
     resultCode: number
     messages: Array<string>

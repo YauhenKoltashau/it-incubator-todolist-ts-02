@@ -36,7 +36,7 @@ export const setAuthorizedUserAC = (id: number | null, login: string | null, ema
     isAuth
 } as const)
 
-export const AuthMeThunk = (): AppThunk => (dispatch) => {
+export const AuthMeThunk = (): AppThunk => (dispatch,getState) => {
     return authAPI.authMe()
         .then((res) => {
             if (res.data.resultCode === 0) {
