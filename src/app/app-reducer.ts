@@ -1,5 +1,5 @@
 import {AppActionsType, AppThunk} from "./store";
-import {AuthMeThunk, setAuthorizedUserAC} from "../features/Auth/auth-reducer";
+import {AuthMeThunk, setAuthorizedUserAC} from "../features/Login/auth-reducer";
 import {authAPI} from "../api/auth-api";
 
 export type AppStatusType = 'idle' | 'loading' | 'succeded' | 'failed'

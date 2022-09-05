@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect} from 'react';
-import './App.css';
-import {Todolist} from "../features/TodolistList/Todolist/Todolist";
-import {AddItemForm} from "../components/AddItemForm";
+import '../../app/App.css';
+import {Todolist} from "../../features/TodolistList/Todolist/Todolist";
+import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {
     AppBar,
     Button,
@@ -20,12 +20,12 @@ import {
     removeTodolistAC,
     setTodolistsAC,
     TodolistDomainType
-} from "../features/TodolistList/todolists-reducer";
-import {TaskPriorities, TaskStatuses, TaskType} from "../api/tasks-api";
-import {ErrorSnackbar} from "../components/ErrorSnackBar/ErrorSnackBar";
+} from "../../features/TodolistList/todolists-reducer";
+import {TaskPriorities, TaskStatuses, TaskType} from "../../api/tasks-api";
+import {ErrorSnackbar} from "../ErrorSnackBar/ErrorSnackBar";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootState} from "./store";
-import {addTaskAC, changedStatusTaskAC, changedTitleTaskAC, removeTaskAC} from "../features/TodolistList/tasks-reducer";
+import {AppRootState} from "../../app/store";
+import {addTaskAC, changedStatusTaskAC, changedTitleTaskAC, removeTaskAC} from "../../features/TodolistList/tasks-reducer";
 import {v1} from "uuid";
 
 export type TaskStateType = {

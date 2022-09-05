@@ -2,7 +2,7 @@ import React from "react";
 
 import {action} from "@storybook/addon-actions";
 
-import {EditableItem} from "../components/EditableItem";
+import {EditableItem} from "./EditableItem";
 
 export default {
     title: 'EditableItem',

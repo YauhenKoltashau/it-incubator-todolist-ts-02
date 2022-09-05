@@ -1,6 +1,6 @@
 import {AppActionsType, AppThunk} from "../../app/store";
 import {authAPI, LoginParamsType} from "../../api/auth-api";
-import {AuthMeThunk} from "../Auth/auth-reducer";
+import {AuthMeThunk} from "./auth-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import {setAppErrorAC, setAppStatusAC} from "../../app/app-reducer";
 

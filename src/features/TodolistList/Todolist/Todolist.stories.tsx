@@ -1,5 +1,5 @@
 import React from "react";
-import {Todolist} from "../features/TodolistList/Todolist/Todolist";
+import {Todolist} from "./Todolist";
 
 export default {
     title: 'todolist',

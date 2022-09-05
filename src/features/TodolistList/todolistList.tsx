@@ -9,7 +9,7 @@ import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {addTaskThunk, deleteTaskThunk, updateTaskThunk} from "./tasks-reducer";
 import {TaskStatuses} from "../../api/tasks-api";
 import {Grid, Paper} from "@material-ui/core";
-import {AddItemForm} from "../../components/AddItemForm";
+import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import {Navigate} from "react-router-dom";
 

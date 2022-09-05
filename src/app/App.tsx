@@ -1,17 +1,6 @@
 import React, {useEffect} from 'react';
 import './App.css';
-import {
-    AppBar,
-    Button,
-    CircularProgress,
-    Container,
-    Grid,
-    IconButton,
-    LinearProgress,
-    Toolbar,
-    Typography
-} from "@material-ui/core";
-import {Menu} from "@material-ui/icons";
+import {CircularProgress, Container, Grid} from "@material-ui/core";
 import {Route, Routes} from "react-router-dom";
 import {TaskType} from "../api/tasks-api";
 import {useAppDispatch, useAppSelector} from "./hooks";
@@ -22,14 +11,12 @@ import {TodolistList} from "../features/TodolistList/todolistList";
 import {initializeAppThunk} from "./app-reducer";
 import {Header} from "../components/Header/Header";
 
-export type TaskStateType = {
-    [todolistId: string]: Array<TaskType>
-}
+
 type PropsType = {
     demo?: boolean
 }
 
-const AppWithRedux = React.memo(function ({demo = false}: PropsType) {
+const App = React.memo(function ({demo = false}: PropsType) {
     console.log('AppWR is render')
 
     const initializeState = useAppSelector(state => state.app.isInitialized)
@@ -66,4 +53,4 @@ const AppWithRedux = React.memo(function ({demo = false}: PropsType) {
     );
 })
 
-export default AppWithRedux;
+export default App;

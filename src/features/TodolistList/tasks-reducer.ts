@@ -1,4 +1,3 @@
-import {TaskStateType} from "../../app/AppWithRedux";
 import {addTodolistAC, removeTodolistAC, setTodolistsAC} from "./todolists-reducer";
 import {taskAPI, TaskPriorities, TaskStatuses, TaskType, UpdateTaskModelType} from "../../api/tasks-api";
 import {AppActionsType, AppRootState, AppThunk} from "../../app/store";
@@ -23,12 +22,15 @@ export const TasksReducer = (state: TaskStateType = initialState, action: AppAct
             return {...state,[action.todolistId]: state[action.todolistId].map(t => t.id === action.taskId ? {...t, ...action.domainModel} : t)}
         case "ADD-TODOLIST":
             return {...state, [action.todolist.id]: []}
-        case "REMOVE-TODOLIST": {
+        case "REMOVE-TODOLIST":
             let copyState = {...state}
             delete copyState[action.id]
             return {...copyState}
-        }
         case "SET-TODOLISTS": {
+            // return action.todolists.reduce((acc, tl)=>{
+            //     copyState[tl.id] = []
+            //     return copyState
+            // },{...state})
             let copyState = {...state}
             action.todolists.forEach(tl => {
                 copyState[tl.id] = []
@@ -201,6 +203,8 @@ export const updateTaskThunk = (todolistId: string, taskId: string, domainModel:
         }
     } catch (error) {
         handleServerNetworkError(error, dispatch)
+    } finally {
+
     }
 }
 
@@ -212,6 +216,9 @@ export type UpdateDomainTaskModelType = {
     priority?: TaskPriorities,
     startDate?: string,
     deadline?: string,
+}
+export type TaskStateType = {
+    [todolistId: string]: Array<TaskType>
 }
 export type TasksActionsType =
     | ReturnType<typeof removeTaskAC>

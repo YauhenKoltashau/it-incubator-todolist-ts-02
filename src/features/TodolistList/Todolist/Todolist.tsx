@@ -1,13 +1,13 @@
 import React, {useCallback, useEffect} from 'react';
-import {AddItemForm} from "../../../components/AddItemForm";
-import {EditableItem} from "../../../components/EditableItem";
+import {AddItemForm} from "../../../components/AddItemForm/AddItemForm";
+import {EditableItem} from "../../../components/EditableItem/EditableItem";
 import {Button, IconButton, Paper} from "@material-ui/core";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import {
     fetchTasksThunk,
 } from "../tasks-reducer";
 import {changeFilterTodolistAC, FilterValuesType, TodolistDomainType} from "../todolists-reducer";
-import {Task} from "../Task/Task";
+import {Task} from "./Task/Task";
 import {TaskStatuses} from "../../../api/tasks-api";
 import {useAppDispatch, useAppSelector} from "../../../app/hooks";
 
