@@ -22,6 +22,7 @@ beforeEach(()=>{
         {id: todolistId_2,addedDate:"220315", order: 4, title: 'What to want to learn'}
     ]
 })
+
 test('correct todolist should be reducer',()=>{
     const startStateWithDomain = TodolistsReducer([],setTodolistsAC({todolists: startState}))
     expect(startStateWithDomain.length).toBe(2)
