@@ -66,6 +66,7 @@ export const TodolistList = React.memo( ({demo = false}: PropsType) => {
     }, [dispatch])
 
     const todolistsForRender = todolists.map((tl) => {
+        debugger
             return (
                 <div key={tl.id}>
                     <Grid container spacing={7}>

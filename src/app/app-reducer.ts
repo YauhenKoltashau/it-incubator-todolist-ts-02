@@ -1,45 +1,39 @@
-import {AppActionsType, AppThunk} from "./store";
-import {AuthMeThunk, setAuthorizedUserAC} from "../features/Login/auth-reducer";
-import {authAPI} from "../api/auth-api";
+import {AppThunk} from "./store";
+import {AuthMeThunk} from "../features/Login/auth-reducer";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
-export type AppStatusType = 'idle' | 'loading' | 'succeded' | 'failed'
-export type InitialStateType = {
-    isInitialized: boolean
-    status: AppStatusType
-    error: string | null
-}
-
+//state
 const initialState: InitialStateType = {
     isInitialized: false,
     status: 'idle',
     error: null
 }
-
-export const AppReducer = (state: InitialStateType = initialState, action: AppActionsType): InitialStateType => {
-    switch (action.type) {
-        case 'APP/SET STATUS':
-            return {...state, status: action.status}
-        case 'APP/SET ERROR':
-            return {...state, error: action.error}
-        case "APP/SET INITIALIZE":
-            return {...state, isInitialized: action.value}
-        default:
-            return {...state}
+//slice
+const slice = createSlice({
+    name: 'app',
+    initialState: initialState,
+    reducers: {
+        setAppStatusAC(state, action:PayloadAction<{status:AppStatusType}>){
+            state.status = action.payload.status
+        },
+        setAppErrorAC(state, action:PayloadAction<{error: string | null}>){
+            state.error = action.payload.error
+        },
+        setCurrentInitializeAC(state, action:PayloadAction<{value: boolean}>){
+            state.isInitialized =  action.payload.value
+        }
     }
-}
-export type AppReducerActionsType =
-    | ReturnType<typeof setAppStatusAC>
-    | ReturnType<typeof setAppErrorAC>
-    | ReturnType<typeof setCurrentInitializeAC>
+})
 
-export const setAppStatusAC = (status: AppStatusType) => ({type: 'APP/SET STATUS', status} as const)
-export const setAppErrorAC = (error: string | null) => ({type: 'APP/SET ERROR', error} as const)
-export const setCurrentInitializeAC = (value: boolean) => ({type: 'APP/SET INITIALIZE', value} as const)
+//reducer
+export const AppReducer =slice.reducer
+export const {setAppStatusAC, setAppErrorAC, setCurrentInitializeAC} = slice.actions
 
-export const initializeAppThunk = (): AppThunk => (dispatch) => {
+//thunks
+export const initializeAppThunk = ():AppThunk => (dispatch) => {
     let promise = dispatch(AuthMeThunk())
     Promise.all([promise]).then(() => {
-        dispatch(setCurrentInitializeAC(true))})
+        dispatch(setCurrentInitializeAC({value: true}))})
     // authAPI.authMe()
     //     .then((res) => {
     //         if (res.data.resultCode === 0) {
@@ -53,4 +47,16 @@ export const initializeAppThunk = (): AppThunk => (dispatch) => {
     //         //     debugger
     //         //     dispatch(checkCurrentInitializeAC(true))})
     //     })
+}
+//types
+export type AppReducerActionsType =
+    | ReturnType<typeof setAppStatusAC>
+    | ReturnType<typeof setAppErrorAC>
+    | ReturnType<typeof setCurrentInitializeAC>
+
+export type AppStatusType = 'idle' | 'loading' | 'succeded' | 'failed'
+export type InitialStateType = {
+    isInitialized: boolean
+    status: AppStatusType
+    error: string | null
 }

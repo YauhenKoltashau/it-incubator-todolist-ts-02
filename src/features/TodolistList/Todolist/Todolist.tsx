@@ -24,6 +24,7 @@ type PropsType = {
 }
 
 export const Todolist = React.memo(function ({demo = false, ...props}: PropsType) {
+    debugger
     console.log('Todolist is rendered')
     const dispatch = useAppDispatch()
     const tasks = useAppSelector(state => state.tasks[props.todolist.id])
@@ -36,7 +37,7 @@ export const Todolist = React.memo(function ({demo = false, ...props}: PropsType
 
 //tasks
     const changeFilterHandler = useCallback((filter: FilterValuesType, todolistId: string) => {
-        const action = changeFilterTodolistAC(filter, todolistId)
+        const action = changeFilterTodolistAC({filter, id: todolistId})
         dispatch(action)
     }, [dispatch])
 

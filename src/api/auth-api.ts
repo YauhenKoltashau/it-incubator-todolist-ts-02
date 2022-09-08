@@ -13,8 +13,8 @@ const instance = axios.create({
     ...settings
 })
 export type LoginParamsType = {
-    email: string
-    password: string
+    email: string | null
+    password: string | null
     rememberMe: boolean
     captcha?: string
 }

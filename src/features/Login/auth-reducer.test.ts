@@ -7,10 +7,10 @@ test('is authorezed user should be set', ()=>{
         email: null,
         isAuth: false
     }
-    let action = setAuthorizedUserAC(4231, "Jardin", "Jardin@gmail.com", true)
+    let action = setAuthorizedUserAC({id: 4231, login: "Jardin", email:"Jardin@gmail.com", isAuth:true})
     let endState = AuthReducer(startState, action)
 
-    expect(endState).not.toBe(startState)
+    // expect(endState).not.toBe(startState)
     expect(endState.id).toBe(4231)
     expect(endState.login).toBe("Jardin")
     expect(endState.email).toBe("Jardin@gmail.com")

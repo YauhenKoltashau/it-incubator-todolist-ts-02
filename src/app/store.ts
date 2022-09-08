@@ -20,7 +20,12 @@ export const store = configureStore({
     reducer: rootReducer,
     middleware:(getDefaultMiddleware) =>getDefaultMiddleware().prepend(thunkMiddleware)
         })
-export type AppActionsType = TodolistTypeAC | TasksActionsType | AppReducerActionsType | LoginActionsType | AuthActionsType
+export type AppActionsType =
+    | TodolistTypeAC
+    | TasksActionsType
+    | AppReducerActionsType
+    | LoginActionsType
+    | AuthActionsType
 export type AppRootState = ReturnType<typeof store.getState>
 // export type AppDispatch = typeof store.dispatch
 export type AppDispatch = ThunkDispatch<AppRootState,unknown,AppActionsType>
