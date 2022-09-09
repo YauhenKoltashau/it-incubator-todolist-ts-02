@@ -27,6 +27,7 @@ export type AppActionsType =
     | LoginActionsType
     | AuthActionsType
 export type AppRootState = ReturnType<typeof store.getState>
+export type RootReducerType = typeof rootReducer
 // export type AppDispatch = typeof store.dispatch
 export type AppDispatch = ThunkDispatch<AppRootState,unknown,AppActionsType>
 export type AppThunk<ReturnType = void> = ThunkAction<
