@@ -6,7 +6,6 @@ import App from "./app/App";
 import {Provider} from "react-redux";
 import {store} from "./app/store";
 import {BrowserRouter as Router} from "react-router-dom";
-import AppWithReducers from "./components/trash/AppWithReducers";
 
 ReactDOM.render(
     <Provider store={store}>

@@ -1,6 +1,6 @@
 import React from 'react'
 import {Provider} from 'react-redux'
-import {applyMiddleware, combineReducers, createStore} from 'redux'
+import {combineReducers} from 'redux'
 
 import {TasksReducer} from "../../features/TodolistList/tasks-reducer";
 import {TodolistsReducer} from "../../features/TodolistList/todolists-reducer";
@@ -11,7 +11,7 @@ import thunkMiddleware from "redux-thunk";
 import {LoginReducer} from "../../features/Login/login-reducer";
 import {AuthReducer} from "../../features/Login/auth-reducer";
 import {configureStore} from "@reduxjs/toolkit";
-import {BrowserRouter, HashRouter} from "react-router-dom";
+import {HashRouter} from "react-router-dom";
 
 const rootReducer: RootReducerType = combineReducers({
     tasks: TasksReducer,

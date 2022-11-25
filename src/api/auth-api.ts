@@ -20,11 +20,11 @@ export type LoginParamsType = {
 }
 export const authAPI = {
     authMe() {
-        const promise = instance.get<ResponseType<{id: number, email: string, login: string}>>('/auth/me')
+        const promise = instance.get<ResponseType<{ id: number, email: string, login: string }>>('/auth/me')
         return promise
     },
-    login(params:LoginParamsType) {
-        const promise = instance.post<ResponseType<{ userId?: number }>>('auth/login',params)
+    login(params: LoginParamsType) {
+        const promise = instance.post<ResponseType<{ userId?: number }>>('auth/login', params)
         return promise
     },
     logout() {
@@ -33,9 +33,11 @@ export const authAPI = {
     }
 
 }
+export type FieldErrorType = {field: string; error: string }
 export type ResponseType<D> = {
     resultCode: number
     messages: Array<string>
+    fieldsErrors?: Array<FieldErrorType>
     data: D
 }
 

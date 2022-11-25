@@ -1,16 +1,16 @@
 import {AppBar, Button, Grid, IconButton, LinearProgress, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
 import React from "react";
-import {useAppDispatch, useAppSelector} from "../../app/hooks";
-import {LogoutThunk} from "../../features/Login/login-reducer";
+import {useActions, useAppDispatch, useAppSelector} from "../../app/hooks";
+import {loginActions} from "../../features/Login";
 
 export const Header = () => {
     const appStatus = useAppSelector(state => state.app.status)
     const isAuth = useAppSelector(state => state.auth.isAuth)
     const nikName = useAppSelector(state => state.auth.login)
-    const dispatch = useAppDispatch()
+    const {LogoutThunk} = useActions(loginActions)
     const LogoutHandler = () => {
-       dispatch(LogoutThunk())
+       LogoutThunk({})
     }
     return(
         <AppBar position="static">

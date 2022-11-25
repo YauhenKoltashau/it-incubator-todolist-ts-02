@@ -1,11 +1,21 @@
 import {v1} from "uuid";
 import {
-    addTaskAC,
-    removeTaskAC,
-    setTaskAC,
-    TasksReducer, updateTaskAC
+    // addTaskThunk,
+    // addTaskAC,
+    // deleteTaskThunk,
+    // fetchTasksThunk,
+    // removeTaskAC,
+    // setTaskAC,
+    TasksReducer,
+    // updateTaskThunk,
+    // updateTaskAC
 } from "./tasks-reducer";
 import {TaskPriorities, TaskStatuses, TaskType} from "../../api/tasks-api";
+import {useActions} from "../../app/hooks";
+import {tasksActions} from "./index";
+
+
+const {addTaskThunk, deleteTaskThunk, fetchTasksThunk, updateTaskThunk} = useActions(tasksActions)
 
 let todolistId_1 = v1()
 let todolistId_2 = v1()
@@ -107,14 +117,14 @@ const startState = {
             order: 1,
             deadline: '',
             description: '',
-            priority:TaskPriorities.Low,
+            priority: TaskPriorities.Low,
             todoListId: todolistId_2
         }]
 }
 //unit tests
 test('correct task should be deleted from correct array', () => {
-
-    const action = removeTaskAC({taskId: startState[todolistId_2][1].id, todolistId: todolistId_2});
+    let param = {taskId: startState[todolistId_2][1].id, todolistId: todolistId_2}
+    const action = deleteTaskThunk.fulfilled(param, '', param);
     const endState = TasksReducer(startState, action)
 
     expect(endState).not.toBe(startState)
@@ -122,8 +132,7 @@ test('correct task should be deleted from correct array', () => {
     expect(endState[todolistId_2][1].title).toBe("Backend")
 });
 test('correct task should be added from correct array', () => {
-
-    const action = addTaskAC({task:{
+    let task = {
         title: 'newTask',
         todoListId: todolistId_2,
         id: 'ffffff',
@@ -134,7 +143,8 @@ test('correct task should be added from correct array', () => {
         startDate: '',
         description: '',
         addedDate: ''
-    }});
+    }
+    const action = addTaskThunk.fulfilled({task}, '', {todolistId: todolistId_2, title: 'newTask'});
     const endState = TasksReducer(startState, action)
 
     expect(endState).not.toBe(startState)
@@ -191,7 +201,8 @@ test('tasks should be added', () => {
             priority: 0,
             todoListId: todolistId_2
         }]
-    const action = setTaskAC({todolistId: todolistId_2, tasks:newTasks});
+    // const action = setTaskAC({todolistId: todolistId_2, tasks:newTasks});
+    const action = fetchTasksThunk.fulfilled({todolistId: todolistId_2, tasks: newTasks}, 'requestId', todolistId_2);
     const endState = TasksReducer(startState, action)
 
     expect(endState).not.toBe(startState)
@@ -201,13 +212,23 @@ test('tasks should be added', () => {
 test('update task should be worked correctly', () => {
 
     //update status
-    const testAction1 = updateTaskAC( {todolistId: todolistId_2, taskId: startState[todolistId_2][0].id, domainModel: {status:TaskStatuses.Completed}});
+    const updateModelStatus = {
+        todolistId: todolistId_2,
+        taskId: startState[todolistId_2][0].id,
+        domainModel: {status: TaskStatuses.Completed}
+    }
+    const testAction1 = updateTaskThunk.fulfilled(updateModelStatus, 'requestId', updateModelStatus);
     const testState1 = TasksReducer(startState, testAction1)
 
     expect(testState1).not.toBe(startState)
     expect(testState1[todolistId_2][0].status).toBe(TaskStatuses.Completed)
     //update title
-    const testAction2 = updateTaskAC( {todolistId: todolistId_2, taskId: startState[todolistId_2][0].id, domainModel: {title:'new title'}});
+    const updateModelTitle = {
+        todolistId: todolistId_2,
+        taskId: startState[todolistId_2][0].id,
+        domainModel: {title: 'react native'}
+    }
+    const testAction2 = updateTaskThunk.fulfilled(updateModelTitle, 'requestId', updateModelTitle);
     const testState2 = TasksReducer(startState, testAction2)
-    expect(testState2[todolistId_2][0].title).toBe('new title')
+    expect(testState2[todolistId_2][0].title).toBe('react native')
 });

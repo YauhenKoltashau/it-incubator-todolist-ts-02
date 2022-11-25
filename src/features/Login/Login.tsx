@@ -10,22 +10,24 @@ import {
     TextField
 } from "@material-ui/core";
 import {useFormik} from "formik";
-import {LoginThunk} from "./login-reducer";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {Navigate} from "react-router-dom";
+import {selectIsAuth} from "../../app/selectors";
+import {loginActions} from "./index";
 
 
 export const Login = () => {
     const dispatch = useAppDispatch()
-    const isAuth = useAppSelector(state => state.auth.isAuth)
+    const isAuth = useAppSelector(selectIsAuth)
+    console.log(isAuth)
     const formik = useFormik({
-        validate: (values)=>{
-            if(!values.email){
+        validate: (values) => {
+            if (!values.email) {
                 return {
                     email: 'Email is required'
                 }
             }
-            if(!values.password){
+            if (!values.password) {
                 return {
                     password: "Password is required"
                 }
@@ -36,12 +38,19 @@ export const Login = () => {
             password: '',
             rememberMe: false
         },
-        onSubmit: values => {
-            dispatch(LoginThunk(values));
+        onSubmit: async (values, formikHelpers) => {
+            const action = await dispatch(loginActions.LoginThunk(values));
+            if (loginActions.LoginThunk.rejected.match(action)) {
+                if (action.payload?.fieldsErrors?.length){
+                    const error = action.payload.fieldsErrors[0]
+                    formikHelpers.setFieldError(error.field, error.error)
+                }
+            }
+
         },
     });
-    if(isAuth){
-        return <Navigate to='/' />
+    if (isAuth) {
+        return <Navigate to='/'/>
     }
     return <Grid container justifyContent={'center'}>
         <Grid item justifyContent={'center'}>
@@ -87,3 +96,4 @@ export const Login = () => {
         </Grid>
     </Grid>
 }
+

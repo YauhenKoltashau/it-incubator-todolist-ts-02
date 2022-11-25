@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {ResponseType} from './auth-api'
 
 const settings = {
     withCredentials: true,
@@ -24,7 +25,7 @@ export const taskAPI = {
         return instance.post<ResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks`, {title})
     },
     deleteTask(todolistId: string, taskId: string) {
-        return  instance.delete<ResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`)
+        return  instance.delete<ResponseType<{}>>(`/todo-lists/${todolistId}/tasks/${taskId}`)
     }
 }
 
@@ -67,15 +68,15 @@ type TaskResponseType = {
     totalCount: number,
     error: null | string
 }
-export type ResponseType<T={}> = {
-    resultCode: number
-    messages: string[]
-    data: T
-    fieldsErrors?: string[]
-
-
-
-}
+// export type ResponseType<T={}> = {
+//     resultCode: number
+//     messages: string[]
+//     data: T
+//     fieldsErrors?: Array<{field:string, error: string}>
+//
+//
+//
+// }
 
 
 

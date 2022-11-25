@@ -5,14 +5,16 @@ import BlockIcon from '@material-ui/icons/Block';
 
 
 type AddItemFormType = {
-    addItem: (title: string) => void
+    addItem: (title: string) => Promise<any>
     name: string
     disabled?:boolean
+    serverError?: string | null
 }
 
-export const AddItemForm = React.memo(({addItem,disabled=false,...props}: AddItemFormType) => {
+export const AddItemForm = React.memo(({addItem,disabled=false,serverError,...props}: AddItemFormType) => {
     const [newTask, setNewTask] = useState('')
     let [error, setError] = useState<string | null>(null)
+
     const onChangeButtonHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setNewTask(e.currentTarget.value)
     }
@@ -21,14 +23,20 @@ export const AddItemForm = React.memo(({addItem,disabled=false,...props}: AddIte
             setError(null)
         }
         if (e.key === 'Enter') {
-            onClickAddTaskHandler()
+            onClickAddItemHandler()
         }
 
     }
-    const onClickAddTaskHandler = () => {
+    const onClickAddItemHandler = async () => {
         if (newTask.trim() !== "") {
-            addItem(newTask.trim())
-            setNewTask("")
+            try {
+                await addItem(newTask.trim())
+                if(!serverError)
+                    setNewTask("")
+            }catch (error: any) {
+                setError(error)
+            }
+
         } else {
             setError("Title is required")
         }
@@ -51,18 +59,20 @@ export const AddItemForm = React.memo(({addItem,disabled=false,...props}: AddIte
 
             {newTask ?
                 <Button
+                    style={{marginLeft:'5px', marginTop: '10px'}}
                     disabled={disabled}
                     size={'small'}
                     variant={'text'}
                     color={'primary'}
-                    onClick={onClickAddTaskHandler}>
+                    onClick={onClickAddItemHandler}>
                     <AddIcon
                         color={'inherit'}
                         fontSize={'small'}
                     /></Button> : <Button
+                    style={{marginLeft:'5px', marginTop: '10px'}}
                     disabled={disabled}
                     variant={'contained'}
-                    onClick={onClickAddTaskHandler}
+                    onClick={onClickAddItemHandler}
                 ><BlockIcon/></Button>}
 
 

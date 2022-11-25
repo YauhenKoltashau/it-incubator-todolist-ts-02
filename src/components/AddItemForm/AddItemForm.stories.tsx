@@ -9,11 +9,11 @@ export default {
 const callBack = action("Button 'add' is pressed inside the form")
 export const TestAddItemForm = () => {
     return(
-        <AddItemForm addItem={callBack}name={'1'}/>
+        <AddItemForm addItem={async ()=>callBack}name={'1'}/>
     )
 }
 export const TestAddItemFormDisabled = () => {
     return(
-        <AddItemForm disabled={true} addItem={callBack}name={'1'}/>
+        <AddItemForm disabled={true} addItem={async()=>callBack}name={'1'}/>
     )
 }

@@ -1,40 +1,54 @@
 import React, {ChangeEvent, useCallback} from "react";
 import styles from "../Todolist.module.css";
-import {NewCheckBox} from "../../../../components/CheckBox/CheckBox";
 import {EditableItem} from "../../../../components/EditableItem/EditableItem";
 import {IconButton} from "@material-ui/core";
 import ClearIcon from "@material-ui/icons/Clear";
 import {TaskStatuses, TaskType} from "../../../../api/tasks-api";
 import Checkbox from "@material-ui/core/Checkbox";
+import {useActions} from "../../../../app/hooks";
+import {tasksActions} from "../../index";
 
 type TaskPropsType = {
-    task:TaskType
-    todolistId:string
-    onClickRemoveTaskHandler:(taksId: string, todolistId: string)=>void
-    checkboxHandler:( todoloistId: string, taskId:string,status: TaskStatuses)=>void
-    changeTitleTask: (title: string,taskId: string)=>void
+    task: TaskType
+    todolistId: string
 }
-export const Task = React.memo((props:TaskPropsType) => {
-const changeTitleTask = (title: string) => {
-    props.changeTitleTask(title,props.task.id)
-}
-const changeStatusTask =useCallback((e: ChangeEvent<HTMLInputElement>)=>{
-    let newIsDoneValue =e.currentTarget.checked
-    props.checkboxHandler( props.todolistId, props.task.id,newIsDoneValue?TaskStatuses.Completed:TaskStatuses.New)
-},[props.task.id,props.todolistId])
+export const Task = React.memo((props: TaskPropsType) => {
+        const {deleteTaskThunk, updateTaskThunk} = useActions(tasksActions)
+
+    const changeTitleTask = (title: string) => {
+        updateTaskThunk({todolistId: props.todolistId, taskId: props.task.id, domainModel: {title}})
+    }
+    const deleteTaskHandler = () => {
+        deleteTaskThunk({
+            todolistId: props.todolistId,
+            taskId: props.task.id
+        })
+    }
+
+    const changeStatusTask = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+        updateTaskThunk({
+            todolistId: props.todolistId,
+            taskId: props.task.id,
+            domainModel: {status: e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New}
+        })
+    }, [props.task.id, props.todolistId])
+
     return (
-        <div className={props.task.status === TaskStatuses.Completed ? styles.isDone : ""}>
-            {/*<NewCheckBox cheked={props.task.status === TaskStatuses.Completed}*/}
-            {/*             type={"checkbox"}*/}
-            {/*             callBack={changeStatusTask}*/}
-            {/*/>*/}
+        <div className={props.task.status === TaskStatuses.Completed ? styles.isDone : ""} style={{position: 'relative'}}>
             <Checkbox
                 checked={props.task.status === TaskStatuses.Completed}
                 onChange={changeStatusTask}
                 color={'primary'}
             />
-            <EditableItem title={props.task.title} changeTitleTask={changeTitleTask}/>
-            <IconButton color={'inherit'} size={'small'} disableRipple onClick={() => props.onClickRemoveTaskHandler(props.task.id, props.todolistId)}><ClearIcon/></IconButton>
+            <EditableItem
+                title={props.task.title}
+                changeTitleTask={changeTitleTask}/>
+            <IconButton
+                style={{position: 'absolute', right: '6px', top: '6px'}}
+                color={'inherit'}
+                size={'small'}
+                disableRipple
+                onClick={deleteTaskHandler}><ClearIcon fontSize={'small'}/></IconButton>
 
         </div>
     )

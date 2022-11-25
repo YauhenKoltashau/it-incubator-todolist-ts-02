@@ -1,7 +1,7 @@
 import React from 'react'
-import {Route, Routes, useRoutes} from "react-router-dom";
-import {TodolistList} from "../../features/TodolistList/todolistList";
-import {Login} from "../../features/Login/Login";
+import {useRoutes} from "react-router-dom";
+import {Login} from "../../features/Login";
+import {TodolistList} from "../../features/TodolistList";
 
 
 export const RoutesBlock = (props: { demo?: boolean }) => {

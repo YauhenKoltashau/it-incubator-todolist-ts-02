@@ -1,12 +1,19 @@
 import {v1} from "uuid";
 import {
-    addTodolistAC, changeFilterTodolistAC,
-    changeTitleTodolistAC, changeTodolistEntityStatusAC,
+    // addTodolistThunk,
+    // addTodolistAC,
+    changeFilterTodolist,
+    // changeTitleTodolistAC,
+    changeTodolistEntityStatusAC,
+    // changeTodolistTitleThunk,
+    // fetchTodolistsThunk,
     FilterValuesType,
-    setTodolistsAC,
+    // removeTodolistThunk,
+    // setTodolistsAC,
     TodolistsReducer
 } from "./todolists-reducer";
 import {TodolistType} from "../../api/todolist-api";
+import {todolistsActions} from "./";
 
 let todolistId_1 = v1()
 let todolistId_2 = v1()
@@ -24,25 +31,25 @@ beforeEach(()=>{
 })
 
 test('correct todolist should be reducer',()=>{
-    const startStateWithDomain = TodolistsReducer([],setTodolistsAC({todolists: startState}))
+    const startStateWithDomain = TodolistsReducer([],todolistsActions.fetchTodolistsThunk.fulfilled({todolists: startState},'requestId'))
     expect(startStateWithDomain.length).toBe(2)
     expect(startStateWithDomain[0].filter).toBeDefined()
-    const endState = TodolistsReducer(startStateWithDomain, {type:"REMOVE-TODOLIST",id:todolistId_2})
+    const endState = TodolistsReducer(startStateWithDomain, todolistsActions.removeTodolistThunk.fulfilled({id:todolistId_2},'requestId', {todolistId:todolistId_2} ))
     expect(endState).not.toBe(startState)
     expect(endState.length).toBe(1)
     expect(endState[0].id).toBe(todolistId_1)
 })
 test('correct todolist should be added', () => {
-    const startStateWithDomain = TodolistsReducer([],setTodolistsAC({todolists: startState}))
-    const endState = TodolistsReducer(startStateWithDomain, addTodolistAC({todolist:{id:"todolistId", title: newTitleForTodolist, addedDate: '', order: 0}}))
+    const startStateWithDomain = TodolistsReducer([],todolistsActions.fetchTodolistsThunk.fulfilled({todolists: startState}, 'requestId'))
+    const data = {todolist:{id:"todolistId", title: newTitleForTodolist, addedDate: '', order: 0}}
+    const endState = TodolistsReducer(startStateWithDomain, todolistsActions.addTodolistThunk.fulfilled(data, 'requestId', {title: "todolistId"}))
     expect(endState).not.toBe(startState)
     expect(endState.length).toBe(3);
     expect(endState[0].title).toBe(newTitleForTodolist);
 });
 test('correct todolist should change its name', () => {
-    const startStateWithDomain = TodolistsReducer([],setTodolistsAC({todolists:startState}))
-    const action = changeTitleTodolistAC({id: todolistId_2, title: newTitleForTodolist})
-
+    const startStateWithDomain = TodolistsReducer([],todolistsActions.fetchTodolistsThunk.fulfilled({todolists:startState}, 'requestId'))
+    const action = todolistsActions.changeTodolistTitleThunk.fulfilled({id: todolistId_2, title: newTitleForTodolist}, 'requestId', {todolistId: todolistId_2, title: newTitleForTodolist})
     const endState = TodolistsReducer(startStateWithDomain,action);
     expect(endState).not.toBe(startState)
     expect(endState[0].title).toBe("What to almost learn");
@@ -50,11 +57,11 @@ test('correct todolist should change its name', () => {
 });
 test('correct filter of todolist should be changed', () => {
     let newFilter: FilterValuesType = "Completed";
-    const action = changeFilterTodolistAC({
+    const action = changeFilterTodolist({
         id: todolistId_2,
         filter: newFilter
     })
-    const startStateWithFilter = TodolistsReducer([],setTodolistsAC({todolists:startState}))
+    const startStateWithFilter = TodolistsReducer([],todolistsActions.fetchTodolistsThunk.fulfilled({todolists:startState}, 'requestId'))
     const endState = TodolistsReducer(startStateWithFilter, action);
     expect(endState).not.toBe(startState)
     expect(endState[0].filter).toBe("All");
@@ -66,7 +73,7 @@ test('correct status of todolist should be changed', () => {
         id: todolistId_2,
         status: 'loading'
     })
-    const startStateWithDomain = TodolistsReducer([],setTodolistsAC({todolists: startState}))
+    const startStateWithDomain = TodolistsReducer([],todolistsActions.fetchTodolistsThunk.fulfilled({todolists:startState}, 'requestId'))
     const endState = TodolistsReducer(startStateWithDomain, action);
     expect(endState).not.toBe(startState)
     expect(endState[0].entityStatus).toBeDefined()

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {ResponseType} from './auth-api'
 
 const settings = {
     withCredentials: true,
@@ -39,12 +40,12 @@ export type TodolistType= {
     order: number
     title: string
 }
-export type ResponseType<D> = {
-    resultCode: number
-    messages: Array<string>
-    fieldsErrors: Array<string>
-    data: D
-}
+// export type ResponseType<D> = {
+//     resultCode: number
+//     messages: Array<string>
+//     fieldsErrors?: Array<{field:string, error: string}>
+//     data: D
+// }
 
 
 

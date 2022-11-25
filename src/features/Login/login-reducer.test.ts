@@ -1,4 +1,4 @@
-import {LoginReducer, LoginStateType, setLoginedUserAC} from "./login-reducer";
+import {LoginReducer, LoginStateType, LoginThunk} from "./login-reducer";
 
 test('login data should be added',()=>{
     const startState: LoginStateType={
@@ -6,7 +6,8 @@ test('login data should be added',()=>{
         password: '',
         rememberMe: false,
     }
-    let action = setLoginedUserAC({email:"Yauhen.koltashau.1985@gmail",password: "1714706",rememberMe: false})
+    const param = {email:"Yauhen.koltashau.1985@gmail",password: "1714706",rememberMe: false}
+    let action = LoginThunk.fulfilled({param},'', param)
     let endState = LoginReducer(startState,action )
 
     // expect(endState).not.toBe(startState)

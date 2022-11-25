@@ -1,19 +1,26 @@
 import {
-    addTodolistAC,
-    removeTodolistAC,
-    setTodolistsAC,
+    // addTodolistThunk,
+    // addTodolistAC,
+    // fetchTodolistsThunk,
+    // removeTodolistAC,
+    // removeTodolistThunk,
+    // setTodolistsAC,
     TodolistDomainType,
     TodolistsReducer
 } from "./todolists-reducer";
 import {TasksReducer, TaskStateType} from "./tasks-reducer";
 import {TaskPriorities, TaskStatuses} from "../../api/tasks-api";
+import {useActions} from "../../app/hooks";
+import {todolistsActions} from "./index";
 
+
+const {addTodolistThunk, fetchTodolistsThunk, removeTodolistThunk} = useActions(todolistsActions)
 //tests
 test('new array should be added when new todolist is added', () => {
     const startTasksState: TaskStateType = {};
     const startTodolistsState: Array<TodolistDomainType> = [];
-
-    const action = addTodolistAC({todolist: {id:"todolistId", title: "new todolist", addedDate: '', order: 0}});
+    const param = {todolist: {id:"todolistId", title: "new todolist", addedDate: '', order: 0}}
+    const action = addTodolistThunk.fulfilled(param, 'requestId', {title:"new todolist"});
 
     const endTasksState = TasksReducer(startTasksState, action)
     const endTodolistsState = TodolistsReducer(startTodolistsState, action)
@@ -40,7 +47,7 @@ test('todolist must have be deleted',()=>{
         ]
     };
 
-    const action = removeTodolistAC({id: "todolistId2"});
+    const action = removeTodolistThunk.fulfilled({id: "todolistId2"}, 'requestId', {todolistId: "todolistId2"});
 
     const endState = TasksReducer(startState, action)
 
@@ -51,10 +58,11 @@ test('todolist must have be deleted',()=>{
     expect(endState["todolistId2"]).not.toBeDefined();
 })
 test('empty arrays should be added when the todolists set',()=>{
-    const action = setTodolistsAC({todolists:[
-        {id: 'todolistId_1', addedDate:"220315", order: 3, title: 'What to almost learn'},
-        {id: 'todolistId_2',addedDate:"220315", order: 4, title: 'What to want to learn'}
-    ]})
+    let todolists = {todolists:[
+            {id: 'todolistId_1', addedDate:"220315", order: 3, title: 'What to almost learn'},
+            {id: 'todolistId_2',addedDate:"220315", order: 4, title: 'What to want to learn'}
+        ]}
+    const action = fetchTodolistsThunk.fulfilled(todolists, 'requestId')
     const endState = TasksReducer({},action)
     const keys = Object.keys(endState)
     expect(keys.length).toBe(2)

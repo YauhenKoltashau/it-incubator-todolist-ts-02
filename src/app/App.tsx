@@ -1,32 +1,26 @@
 import React, {useEffect} from 'react';
 import './App.css';
 import {CircularProgress, Container, Grid} from "@material-ui/core";
-import {Route, Routes, useRoutes} from "react-router-dom";
-import {TaskType} from "../api/tasks-api";
 import {useAppDispatch, useAppSelector} from "./hooks";
 import {ErrorSnackbar} from "../components/ErrorSnackBar/ErrorSnackBar";
-
-import {Login} from "../features/Login/Login";
-import {TodolistList} from "../features/TodolistList/todolistList";
-import {initializeAppThunk} from "./app-reducer";
+import {asyncActions} from "./index";
 import {Header} from "../components/Header/Header";
 import {RoutesBlock} from "../components/RoutesBlock/RoutesBlock";
+import {selectIsInitialized} from "./selectors";
 
 
 type PropsType = {
     demo?: boolean
 }
 
+
 const App = React.memo(function ({demo = false}: PropsType) {
-    console.log('AppWR is render')
-
-    const initializeState = useAppSelector(state => state.app.isInitialized)
-
+    const initializeState = useAppSelector(selectIsInitialized)
     const dispatch = useAppDispatch()
 
     useEffect(() => {
         !demo&&
-        dispatch(initializeAppThunk())
+        dispatch(asyncActions.initializeAppThunk())
     }, [])
 
     if (!initializeState) {
@@ -39,17 +33,17 @@ const App = React.memo(function ({demo = false}: PropsType) {
     }
 
     return (
-        <div className="App">
+        <div className="App" >
             <ErrorSnackbar/>
             <Header/>
 
-            <Container fixed>
+            <div>
                 {/*<Routes>*/}
                 {/*    <Route path={'/'} element={<TodolistList demo={demo}/>}/>*/}
                 {/*    <Route path={'/login'} element={<Login/>}/>*/}
                 {/*</Routes>*/}
                 <RoutesBlock demo={demo}/>
-            </Container>
+            </div>
 
         </div>
     );

@@ -5,18 +5,27 @@ import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
 import {
-    addTodolistAC,
-    changeTitleTodolistAC,
-    removeTodolistAC,
-    setTodolistsAC,
+    // addTodolistThunk, changeTodolistTitleThunk,
+    // addTodolistAC,
+    // changeTitleTodolistAC,
+    // fetchTodolistsThunk, removeTodolistThunk,
+    // removeTodolistAC,
+    // setTodolistsAC,
     TodolistDomainType
 } from "../../features/TodolistList/todolists-reducer";
 import {TaskPriorities, TaskStatuses, TaskType} from "../../api/tasks-api";
 import {ErrorSnackbar} from "../ErrorSnackBar/ErrorSnackBar";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../../app/store";
-import {addTaskAC, removeTaskAC, updateTaskAC} from "../../features/TodolistList/tasks-reducer";
+import {
+    // addTaskThunk,
+    // deleteTaskThunk,
+    UpdateDomainTaskModelType,
+    // updateTaskThunk
+} from "../../features/TodolistList/tasks-reducer";
 import {v1} from "uuid";
+import {useActions, useAppSelector} from "../../app/hooks";
+import {tasksActions, todolistsActions} from "../../features/TodolistList";
 
 export type TaskStateType = {
     [todolistId: string]: Array<TaskType>
@@ -25,32 +34,37 @@ type PropsType = {
     demo?: boolean
 }
 const AppWithReducers = React.memo(function ({demo = false}:PropsType) {
+    debugger
     console.log('AppWR is render')
     //BLL:
     const dispatch = useDispatch()
-    const todolists = useSelector<AppRootState,Array<TodolistDomainType>>(state => state.todolists)
+    const todolists = useAppSelector(state => state.todolists)
+    // const todolists = useSelector<AppRootState,Array<TodolistDomainType>>(state => state.todolists)
     // const todolists = useAppSelector(state => state.todolists)
+    const {deleteTaskThunk, addTaskThunk, updateTaskThunk} = useActions(tasksActions)
+    const {addTodolistThunk, changeTodolistTitleThunk, fetchTodolistsThunk, removeTodolistThunk} = useActions(todolistsActions)
+
 
     useEffect(()=>{
-        dispatch(setTodolistsAC({todolists}))
+        fetchTodolistsThunk()
     },[])
 
 //todolists
 
     const removeTodolist = useCallback((todolistId: string) => {
-        const action = removeTodolistAC({id: todolistId})
+        const action = removeTodolistThunk.fulfilled({id: todolistId}, 'requestId', {todolistId})
         dispatch(action)
     },[])
     const addTodolist = useCallback((title:string) => {
-        const action = addTodolistAC({todolist:{title, addedDate:'',order:0,id:v1()}})
+        const action = addTodolistThunk.fulfilled({todolist:{title, addedDate:'',order:0,id:v1()}}, 'requestId', {title})
         dispatch(action)
     },[])
     const changeTodolistTitle = useCallback((title: string, todolistId: string) => {
-        const action = changeTitleTodolistAC({id: todolistId, title:title})
+        const action = changeTodolistTitleThunk.fulfilled({id: todolistId, title:title}, 'requestId', {todolistId, title})
         dispatch(action)
     },[])
     const addTask = useCallback((todolistId:string, title: string) => {
-        dispatch(addTaskAC({task: {
+        dispatch(addTaskThunk.fulfilled({task: {
             todoListId:todolistId,
             title,
             id:v1(),
@@ -61,17 +75,24 @@ const AppWithReducers = React.memo(function ({demo = false}:PropsType) {
             priority:TaskPriorities.Low,
             startDate: '',
             description: ''
-        }}))
+        }}, '', {todolistId, title}))
     },[dispatch])
+    //remove Task
     const onClickRemoveTaskHandler = useCallback((taskId: string, todolistId: string) => {
-            dispatch(removeTaskAC({taskId,todolistId}))
+            dispatch(deleteTaskThunk.fulfilled({taskId,todolistId},'', {taskId,todolistId}))
         },[dispatch])
+    //change task title
     const changeTitleTask = useCallback((todolistId: string, title: string, taskID: string) => {
-        dispatch(updateTaskAC({todolistId, taskId: taskID, domainModel: {title} }))
+        let updateDataModel = {
+            todolistId, taskId: taskID, domainModel: {title}}
+        dispatch(updateTaskThunk.fulfilled(updateDataModel, 'requestId', updateDataModel))
     },[dispatch])
+    // change checkbox status
     const checkboxHandler = useCallback((todolistId: string, taskID: string, status: TaskStatuses) => {
-        dispatch(updateTaskAC({todolistId, taskId: taskID, domainModel:{status}}))
+        let updateDataModel = {todolistId, taskId: taskID, domainModel:{status}}
+        dispatch(updateTaskThunk.fulfilled( updateDataModel,'requestId', updateDataModel))
     }, [dispatch])
+
     const todolistsForRender = todolists.map((tl) => {
         return (<Grid item key={tl.id}>
                 <Paper elevation={2} style={{background: 'whitesmoke',
@@ -82,12 +103,6 @@ const AppWithReducers = React.memo(function ({demo = false}:PropsType) {
                     <Todolist
                         todolist={tl}
                         key={tl.id}
-                        removeTodolist={removeTodolist}
-                        changeTodolistTitle={changeTodolistTitle}
-                        addTask={addTask}
-                        onClickRemoveTaskHandler={onClickRemoveTaskHandler}
-                        changeTitleTask={changeTitleTask}
-                        checkboxHandler={checkboxHandler}
                         demo={demo}
                     />
                 </Paper>
@@ -111,7 +126,7 @@ const AppWithReducers = React.memo(function ({demo = false}:PropsType) {
             </AppBar>
             <Container fixed>
                 <Grid container style={{padding: '20px'}}>
-                    <AddItemForm addItem={addTodolist} name={'add todolist'}/>
+                    <AddItemForm addItem={async()=>{}} name={'add todolist'}/>
                 </Grid>
                 <Grid container spacing={7}>
                     {todolistsForRender}

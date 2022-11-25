@@ -1,4 +1,4 @@
-import {AuthReducer, AuthStateType, setAuthorizedUserAC} from "./auth-reducer";
+import {AuthMeThunk, AuthReducer, AuthStateType} from "./auth-reducer";
 
 test('is authorezed user should be set', ()=>{
     const startState: AuthStateType = {
@@ -7,7 +7,8 @@ test('is authorezed user should be set', ()=>{
         email: null,
         isAuth: false
     }
-    let action = setAuthorizedUserAC({id: 4231, login: "Jardin", email:"Jardin@gmail.com", isAuth:true})
+    let param = {id: 4231, login: "Jardin", email:"Jardin@gmail.com", isAuth:true}
+    let action = AuthMeThunk.fulfilled(param,'',param)
     let endState = AuthReducer(startState, action)
 
     // expect(endState).not.toBe(startState)
