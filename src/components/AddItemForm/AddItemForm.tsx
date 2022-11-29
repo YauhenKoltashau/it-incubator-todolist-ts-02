@@ -3,15 +3,18 @@ import AddIcon from '@material-ui/icons/Add';
 import {Button, TextField} from "@material-ui/core";
 import BlockIcon from '@material-ui/icons/Block';
 
+export type AddItemFormSubmitHelperType = {
+    setError :(error: string) => void, setNewTask:(title: string) => void
+}
 
 type AddItemFormType = {
-    addItem: (title: string) => Promise<any>
+    addItem: (title: string, helper:AddItemFormSubmitHelperType) => void
     name: string
-    disabled?:boolean
+    disabled?: boolean
     serverError?: string | null
 }
 
-export const AddItemForm = React.memo(({addItem,disabled=false,serverError,...props}: AddItemFormType) => {
+export const AddItemForm = React.memo(({addItem, disabled = false, serverError, ...props}: AddItemFormType) => {
     const [newTask, setNewTask] = useState('')
     let [error, setError] = useState<string | null>(null)
 
@@ -29,13 +32,13 @@ export const AddItemForm = React.memo(({addItem,disabled=false,serverError,...pr
     }
     const onClickAddItemHandler = async () => {
         if (newTask.trim() !== "") {
-            try {
-                await addItem(newTask.trim())
-                if(!serverError)
-                    setNewTask("")
-            }catch (error: any) {
-                setError(error)
-            }
+            addItem(newTask.trim(), {setNewTask, setError})
+            // try {
+            //     await addItem(newTask.trim())
+            //     setNewTask("")
+            // } catch (error: any) {
+            //     setError(error.message)
+            // }
 
         } else {
             setError("Title is required")
@@ -47,19 +50,16 @@ export const AddItemForm = React.memo(({addItem,disabled=false,serverError,...pr
         <div>
             <TextField
                 disabled={disabled}
-                label={error ? error : "new name"}
+                label={"title"}
                 variant={"outlined"}
                 value={newTask}
                 onChange={onChangeButtonHandler}
                 onKeyPress={onKeyPressHandler}
                 error={!!error}
-
-
             />
-
             {newTask ?
                 <Button
-                    style={{marginLeft:'5px', marginTop: '10px'}}
+                    style={{marginLeft: '5px', marginTop: '10px'}}
                     disabled={disabled}
                     size={'small'}
                     variant={'text'}
@@ -69,12 +69,12 @@ export const AddItemForm = React.memo(({addItem,disabled=false,serverError,...pr
                         color={'inherit'}
                         fontSize={'small'}
                     /></Button> : <Button
-                    style={{marginLeft:'5px', marginTop: '10px'}}
+                    style={{marginLeft: '5px', marginTop: '10px'}}
                     disabled={disabled}
                     variant={'contained'}
                     onClick={onClickAddItemHandler}
                 ><BlockIcon/></Button>}
-
+            {error&&<div style={{color: 'red'}}>{error}</div>}
 
         </div>
 

@@ -1,7 +1,8 @@
 import {AppBar, Button, Grid, IconButton, LinearProgress, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
 import React from "react";
-import {useActions, useAppDispatch, useAppSelector} from "../../app/hooks";
+import {useAppSelector} from "../../app/hooks";
+import {useActions} from "../../utils/redux-utils";
 import {loginActions} from "../../features/Login";
 
 export const Header = () => {

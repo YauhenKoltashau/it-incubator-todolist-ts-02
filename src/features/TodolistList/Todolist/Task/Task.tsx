@@ -3,10 +3,10 @@ import styles from "../Todolist.module.css";
 import {EditableItem} from "../../../../components/EditableItem/EditableItem";
 import {IconButton} from "@material-ui/core";
 import ClearIcon from "@material-ui/icons/Clear";
-import {TaskStatuses, TaskType} from "../../../../api/tasks-api";
 import Checkbox from "@material-ui/core/Checkbox";
-import {useActions} from "../../../../app/hooks";
 import {tasksActions} from "../../index";
+import {useActions} from "../../../../utils/redux-utils";
+import {TaskStatuses, TaskType} from "../../../../api/types";
 
 type TaskPropsType = {
     task: TaskType

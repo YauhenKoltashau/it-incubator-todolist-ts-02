@@ -12,8 +12,8 @@ import {
     // setTodolistsAC,
     TodolistsReducer
 } from "./todolists-reducer";
-import {TodolistType} from "../../api/todolist-api";
 import {todolistsActions} from "./";
+import {TodolistType} from "../../api/types";
 
 let todolistId_1 = v1()
 let todolistId_2 = v1()

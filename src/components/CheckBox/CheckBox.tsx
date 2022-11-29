@@ -1,6 +1,6 @@
 import React, {ChangeEvent} from "react";
 import Checkbox from '@material-ui/core/Checkbox'
-import {TaskStatuses} from "../../api/tasks-api";
+import {TaskStatuses} from "../../api/types";
 
 type CheckBoxType = {
     checked: boolean

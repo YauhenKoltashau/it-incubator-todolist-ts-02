@@ -1,13 +1,14 @@
 import React, {useCallback, useEffect} from 'react';
-import {AddItemForm} from "../../../components/AddItemForm/AddItemForm";
+import {AddItemForm, AddItemFormSubmitHelperType} from "../../../components/AddItemForm/AddItemForm";
 import {EditableItem} from "../../../components/EditableItem/EditableItem";
-import {Button, IconButton, Paper, PropTypes} from "@material-ui/core";
+import {Button, IconButton, Paper} from "@material-ui/core";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import {FilterValuesType, TodolistDomainType} from "../todolists-reducer";
 import {Task} from "./Task/Task";
-import {useActions, useAppSelector} from "../../../app/hooks";
+import {useAppDispatch, useAppSelector} from "../../../app/hooks";
 import {tasksActions, todolistsActions} from "../index";
 import {selectTasks} from "../../../app/selectors";
+import {useActions} from "../../../utils/redux-utils";
 
 
 type PropsType = {
@@ -20,15 +21,27 @@ export const Todolist = React.memo(function ({demo = false, ...props}: PropsType
     //selector
     const tasks = useAppSelector(selectTasks)[props.todolist.id]
     const serverError = useAppSelector(state=>state.app.error)
+    const dispatch = useAppDispatch()
     //actions
     const {changeFilterTodolist, removeTodolistThunk, changeTodolistTitleThunk} = useActions(todolistsActions)
-    const {fetchTasksThunk, addTaskThunk} = useActions(tasksActions)
+    const {fetchTasksThunk} = useActions(tasksActions)
 
     useEffect(() => {
         if (!demo) {
-            fetchTasksThunk(props.todolist.id)
+            fetchTasksThunk({todolistId: props.todolist.id})
         }
     }, [])
+    const addTaskHandler = useCallback(async (title, helper: AddItemFormSubmitHelperType) => {
+        const resultAction = await dispatch(tasksActions.addTaskThunk({todolistId: props.todolist.id, title: title}));
+        if (tasksActions.addTaskThunk.rejected.match(resultAction)) {
+            if (resultAction.payload?.errors?.length) {
+                const errorMessage = resultAction.payload.errors[0]
+                helper.setError(errorMessage)
+            } else {
+                helper.setError('Some error message')
+            }
+        } else helper.setNewTask('')
+    }, [props.todolist.id])
     //logic
     let changeTasksFilter = tasks
     if (props.todolist.filter === 'Active') {
@@ -64,7 +77,7 @@ export const Todolist = React.memo(function ({demo = false, ...props}: PropsType
         <div>
             <AddItemForm
                 disabled={props.todolist.entityStatus === 'loading'}
-                addItem={useCallback(async(title) => addTaskThunk({todolistId: props.todolist.id, title: title}),[props.todolist.id])}
+                addItem={addTaskHandler}
                 name={'add task'}
                 serverError={serverError}
             />

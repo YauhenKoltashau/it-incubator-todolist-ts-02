@@ -4,28 +4,13 @@ import {Todolist} from "../../features/TodolistList/Todolist/Todolist";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
-import {
-    // addTodolistThunk, changeTodolistTitleThunk,
-    // addTodolistAC,
-    // changeTitleTodolistAC,
-    // fetchTodolistsThunk, removeTodolistThunk,
-    // removeTodolistAC,
-    // setTodolistsAC,
-    TodolistDomainType
-} from "../../features/TodolistList/todolists-reducer";
-import {TaskPriorities, TaskStatuses, TaskType} from "../../api/tasks-api";
 import {ErrorSnackbar} from "../ErrorSnackBar/ErrorSnackBar";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootState} from "../../app/store";
-import {
-    // addTaskThunk,
-    // deleteTaskThunk,
-    UpdateDomainTaskModelType,
-    // updateTaskThunk
-} from "../../features/TodolistList/tasks-reducer";
+import {useDispatch} from "react-redux";
 import {v1} from "uuid";
-import {useActions, useAppSelector} from "../../app/hooks";
+import {useAppSelector} from "../../app/hooks";
 import {tasksActions, todolistsActions} from "../../features/TodolistList";
+import {useActions} from "../../utils/redux-utils";
+import {TaskPriorities, TaskStatuses, TaskType} from "../../api/types";
 
 export type TaskStateType = {
     [todolistId: string]: Array<TaskType>

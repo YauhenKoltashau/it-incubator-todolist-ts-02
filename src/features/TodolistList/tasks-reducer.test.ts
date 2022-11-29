@@ -1,18 +1,8 @@
 import {v1} from "uuid";
-import {
-    // addTaskThunk,
-    // addTaskAC,
-    // deleteTaskThunk,
-    // fetchTasksThunk,
-    // removeTaskAC,
-    // setTaskAC,
-    TasksReducer,
-    // updateTaskThunk,
-    // updateTaskAC
-} from "./tasks-reducer";
-import {TaskPriorities, TaskStatuses, TaskType} from "../../api/tasks-api";
-import {useActions} from "../../app/hooks";
+import {TasksReducer,} from "./tasks-reducer";
 import {tasksActions} from "./index";
+import {useActions} from "../../utils/redux-utils";
+import {TaskPriorities, TaskStatuses, TaskType} from "../../api/types";
 
 
 const {addTaskThunk, deleteTaskThunk, fetchTasksThunk, updateTaskThunk} = useActions(tasksActions)
@@ -202,7 +192,7 @@ test('tasks should be added', () => {
             todoListId: todolistId_2
         }]
     // const action = setTaskAC({todolistId: todolistId_2, tasks:newTasks});
-    const action = fetchTasksThunk.fulfilled({todolistId: todolistId_2, tasks: newTasks}, 'requestId', todolistId_2);
+    const action = fetchTasksThunk.fulfilled({todolistId: todolistId_2, tasks: newTasks}, 'requestId', {todolistId: todolistId_2});
     const endState = TasksReducer(startState, action)
 
     expect(endState).not.toBe(startState)

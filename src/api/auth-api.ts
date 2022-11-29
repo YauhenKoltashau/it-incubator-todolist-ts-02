@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {ResponseType} from "./types";
 
 const settings = {
     withCredentials: true,
@@ -32,13 +33,6 @@ export const authAPI = {
         return promise
     }
 
-}
-export type FieldErrorType = {field: string; error: string }
-export type ResponseType<D> = {
-    resultCode: number
-    messages: Array<string>
-    fieldsErrors?: Array<FieldErrorType>
-    data: D
 }
 
 

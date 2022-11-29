@@ -1,0 +1,19 @@
+import { rootReducer, store} from "../app/store";
+import {ThunkAction, ThunkDispatch} from "redux-thunk";
+import {TodolistTypeAC} from "../features/TodolistList/todolists-reducer";
+import {AppReducerActionsType} from "../app/app-reducer";
+import {FieldErrorType} from "../api/types";
+
+export type RootReducerType = typeof rootReducer
+export type AppRootState = ReturnType<typeof store.getState>
+export type AppDispatch = ThunkDispatch<AppRootState,unknown,AppActionsType>
+export type AppActionsType =
+    | TodolistTypeAC
+    | AppReducerActionsType
+export type AppThunk<ReturnType = void> = ThunkAction<
+    ReturnType,
+    AppRootState,
+    unknown,
+    AppActionsType
+    >
+export type ThunkError = {rejectValue:{errors: string[], fieldsErrors?: Array<FieldErrorType>}}

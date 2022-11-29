@@ -9,9 +9,9 @@ import {
     TodolistsReducer
 } from "./todolists-reducer";
 import {TasksReducer, TaskStateType} from "./tasks-reducer";
-import {TaskPriorities, TaskStatuses} from "../../api/tasks-api";
-import {useActions} from "../../app/hooks";
 import {todolistsActions} from "./index";
+import {useActions} from "../../utils/redux-utils";
+import {TaskPriorities, TaskStatuses} from "../../api/types";
 
 
 const {addTodolistThunk, fetchTodolistsThunk, removeTodolistThunk} = useActions(todolistsActions)

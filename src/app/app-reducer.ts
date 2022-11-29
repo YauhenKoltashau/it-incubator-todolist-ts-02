@@ -22,7 +22,7 @@ export const asyncActions = {
 }
 
 //slice
-const slice = createSlice({
+export const slice = createSlice({
     name: 'app',
     initialState: {
         isInitialized: false,
@@ -47,7 +47,10 @@ const slice = createSlice({
 
 //reducer
 export const AppReducer = slice.reducer
-export const {setAppStatusAC, setAppErrorAC} = slice.actions
+export const {
+    setAppStatusAC,
+    setAppErrorAC
+} = slice.actions
 
 //types
 export type AppReducerActionsType =

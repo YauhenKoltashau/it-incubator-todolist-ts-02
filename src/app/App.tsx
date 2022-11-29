@@ -1,12 +1,13 @@
 import React, {useEffect} from 'react';
 import './App.css';
-import {CircularProgress, Container, Grid} from "@material-ui/core";
-import {useAppDispatch, useAppSelector} from "./hooks";
+import {CircularProgress, Grid} from "@material-ui/core";
+import {useAppSelector} from "./hooks";
 import {ErrorSnackbar} from "../components/ErrorSnackBar/ErrorSnackBar";
-import {asyncActions} from "./index";
+import {appActions} from "./index";
 import {Header} from "../components/Header/Header";
 import {RoutesBlock} from "../components/RoutesBlock/RoutesBlock";
 import {selectIsInitialized} from "./selectors";
+import {useActions} from "../utils/redux-utils";
 
 
 type PropsType = {
@@ -16,11 +17,11 @@ type PropsType = {
 
 const App = React.memo(function ({demo = false}: PropsType) {
     const initializeState = useAppSelector(selectIsInitialized)
-    const dispatch = useAppDispatch()
+    const {initializeAppThunk}=useActions(appActions)
 
     useEffect(() => {
         !demo&&
-        dispatch(asyncActions.initializeAppThunk())
+        initializeAppThunk()
     }, [])
 
     if (!initializeState) {

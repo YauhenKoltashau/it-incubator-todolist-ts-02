@@ -1,9 +1,10 @@
-import {authAPI, FieldErrorType, LoginParamsType} from "../../api/auth-api";
+import {authAPI, LoginParamsType} from "../../api/auth-api";
 import {AuthMeThunk} from "./auth-reducer";
-import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
+import {handleAsyncServerAppError, handleAsyncServerNetworkError} from "../../utils/error-utils";
 import {setAppStatusAC} from "../../app/app-reducer";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-                                    //  new v
+import {ThunkError} from "../../utils/types";
+//  new v
 //state
 const initialState: LoginStateType = {
     email: null,
@@ -11,7 +12,9 @@ const initialState: LoginStateType = {
     rememberMe: false,
 }
 // thunk creators
-export const LoginThunk = createAsyncThunk<{ param: LoginParamsType }, LoginParamsType ,{rejectValue:{errors: string[], fieldsErrors?: Array<FieldErrorType>}}>('login/LoginThunk', async (param: LoginParamsType, thunkAPI) => {
+export const LoginThunk = createAsyncThunk<{param: LoginParamsType }, LoginParamsType ,
+    ThunkError
+    >('login/LoginThunk', async (param: LoginParamsType, thunkAPI) => {
     thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
     try {
         const res = await authAPI.login(param)
@@ -20,12 +23,10 @@ export const LoginThunk = createAsyncThunk<{ param: LoginParamsType }, LoginPara
             thunkAPI.dispatch(setAppStatusAC({status: 'succeded'}))
             return {param}
         } else {
-            handleServerAppError(res.data, thunkAPI.dispatch)
-            return thunkAPI.rejectWithValue({errors: res.data.messages, fieldsErrors: res.data.fieldsErrors})
+            return handleAsyncServerAppError(res.data, thunkAPI)
         }
     } catch (error: any) {
-        handleServerNetworkError(error, thunkAPI.dispatch)
-        return thunkAPI.rejectWithValue({errors:[error], fieldsErrors: undefined})
+        return handleAsyncServerNetworkError(error, thunkAPI)
 
     }
 })
@@ -38,10 +39,10 @@ export const LogoutThunk = createAsyncThunk('login/LogoutThunk', async (param: {
             thunkAPI.dispatch(AuthMeThunk({}))
             thunkAPI.dispatch(setAppStatusAC({status: 'succeded'}))
         } else {
-            handleServerAppError(res.data, thunkAPI.dispatch)
+            return handleAsyncServerAppError(res.data, thunkAPI)
         }
-    } catch (error) {
-        handleServerNetworkError(error, thunkAPI.dispatch)
+    } catch (error: any) {
+        return handleAsyncServerNetworkError(error, thunkAPI)
     }
 })
 export const asyncActions = {

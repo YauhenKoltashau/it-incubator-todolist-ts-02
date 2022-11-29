@@ -1,7 +1,7 @@
-import {authAPI, FieldErrorType} from "../../api/auth-api";
-import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
+import {authAPI} from "../../api/auth-api";
+import {handleAsyncServerAppError, handleAsyncServerNetworkError} from "../../utils/error-utils";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import axios, { AxiosError } from 'axios';
+import {ThunkError} from "../../utils/types";
 
 //new v
 //state
@@ -13,31 +13,32 @@ const initialState: AuthStateType = {
 }
 
 //thunkCreator
-export const AuthMeThunk = createAsyncThunk<AuthStateType,{},{rejectValue:{errors: string[], fieldsErrors?: Array<FieldErrorType>}}>('auth/AuthMeThunk', async (param,thunkAPI)=>{
+export const AuthMeThunk = createAsyncThunk<AuthStateType,{},ThunkError>('auth/AuthMeThunk', async (param,thunkAPI)=>{
     try {
         const res = await authAPI.authMe()
         if (res.data.resultCode === 0) {
             return {id:res.data.data.id, login: res.data.data.login, email:res.data.data.email, isAuth: true}
         } else {
-            handleServerAppError(res.data, thunkAPI.dispatch)
-            return {id:null, login: null, email:null, isAuth: false}
+             return handleAsyncServerAppError(res.data, thunkAPI)
+            // return {id:null, login: null, email:null, isAuth: false}
         }
     }
     catch(err:any) {
-        const error= err
-        handleServerNetworkError(error, thunkAPI.dispatch)
-        return thunkAPI.rejectWithValue({errors:[error], fieldsErrors: undefined})
+        return handleAsyncServerNetworkError(err, thunkAPI)
     }
 })
 
 //slice
-const slice = createSlice({
+export const slice = createSlice({
     name: 'auth',
     initialState: initialState,
     reducers: {},
     extraReducers: (builder)=>{
         builder.addCase(AuthMeThunk.fulfilled, (state, action)=>{
             state.id = action.payload.id; state.login = action.payload.login; state.email = action.payload.email; state.isAuth = action.payload.isAuth
+        })
+        builder.addCase(AuthMeThunk.rejected, (state, action)=>{
+            state.id = null; state.login = null; state.email = null; state.isAuth = false
         })
     }
 
