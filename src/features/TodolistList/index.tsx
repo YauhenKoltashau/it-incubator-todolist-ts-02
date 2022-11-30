@@ -3,6 +3,7 @@ import {asyncActions as todolistsAsyncActions} from './todolists-reducer'
 import {slice as todosSlice} from './todolists-reducer'
 import {slice as tasksSlice} from './tasks-reducer'
 import {TodolistList} from './todolistList'
+import * as types from './todolists-TasksTypes'
 
 //reducer
 const todolistsReducer = todosSlice.reducer
@@ -22,5 +23,6 @@ export {
     tasksActions,
     todolistsActions,
     todolistsReducer,
-    tasksReducer
+    tasksReducer,
+    types
 }

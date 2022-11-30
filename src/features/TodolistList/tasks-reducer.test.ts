@@ -1,12 +1,10 @@
 import {v1} from "uuid";
-import {TasksReducer,} from "./tasks-reducer";
-import {tasksActions} from "./index";
-import {useActions} from "../../utils/redux-utils";
+import {tasksActions, tasksReducer} from "./index";
 import {TaskPriorities, TaskStatuses, TaskType} from "../../api/types";
 
 
-const {addTaskThunk, deleteTaskThunk, fetchTasksThunk, updateTaskThunk} = useActions(tasksActions)
-
+const {addTaskThunk, deleteTaskThunk, fetchTasksThunk, updateTaskThunk} = tasksActions
+const TasksReducer = tasksReducer
 let todolistId_1 = v1()
 let todolistId_2 = v1()
 

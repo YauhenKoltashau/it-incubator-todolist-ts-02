@@ -1,24 +1,15 @@
-import {
-    // addTodolistThunk,
-    // addTodolistAC,
-    // fetchTodolistsThunk,
-    // removeTodolistAC,
-    // removeTodolistThunk,
-    // setTodolistsAC,
-    TodolistDomainType,
-    TodolistsReducer
-} from "./todolists-reducer";
-import {TasksReducer, TaskStateType} from "./tasks-reducer";
-import {todolistsActions} from "./index";
-import {useActions} from "../../utils/redux-utils";
+import {tasksReducer, todolistsActions, todolistsReducer, types} from "./index";
 import {TaskPriorities, TaskStatuses} from "../../api/types";
 
-
-const {addTodolistThunk, fetchTodolistsThunk, removeTodolistThunk} = useActions(todolistsActions)
+const TodolistsReducer = todolistsReducer
+const TasksReducer = tasksReducer
+//
+//
+const {addTodolistThunk, fetchTodolistsThunk, removeTodolistThunk} = todolistsActions
 //tests
 test('new array should be added when new todolist is added', () => {
-    const startTasksState: TaskStateType = {};
-    const startTodolistsState: Array<TodolistDomainType> = [];
+    const startTasksState: types.TaskStateType = {};
+    const startTodolistsState: Array<types.TodolistDomainType> = [];
     const param = {todolist: {id:"todolistId", title: "new todolist", addedDate: '', order: 0}}
     const action = addTodolistThunk.fulfilled(param, 'requestId', {title:"new todolist"});
 
@@ -34,7 +25,7 @@ test('new array should be added when new todolist is added', () => {
     expect(endTodolistsState[0].id).toBe("todolistId")
 });
 test('todolist must have be deleted',()=>{
-    const startState: TaskStateType = {
+    const startState: types.TaskStateType = {
         "todolistId1": [
             { id: "1", title: "CSS", status:TaskStatuses.Completed, addedDate:'', startDate:'',order: 1,deadline: '', description: '', priority:TaskPriorities.Low,todoListId:"todolistId1"},
             { id: "2", title: "JS", status:TaskStatuses.Completed, addedDate:'', startDate:'',order: 1,deadline: '', description: '', priority:TaskPriorities.Low,todoListId:"todolistId1" },

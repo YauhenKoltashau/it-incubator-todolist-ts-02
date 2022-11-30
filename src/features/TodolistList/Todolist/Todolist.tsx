@@ -3,12 +3,12 @@ import {AddItemForm, AddItemFormSubmitHelperType} from "../../../components/AddI
 import {EditableItem} from "../../../components/EditableItem/EditableItem";
 import {Button, IconButton, Paper} from "@material-ui/core";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import {FilterValuesType, TodolistDomainType} from "../todolists-reducer";
 import {Task} from "./Task/Task";
 import {useAppDispatch, useAppSelector} from "../../../app/hooks";
 import {tasksActions, todolistsActions} from "../index";
 import {selectTasks} from "../../../app/selectors";
 import {useActions} from "../../../utils/redux-utils";
+import {FilterValuesType, TodolistDomainType} from "../todolists-TasksTypes";
 
 
 type PropsType = {

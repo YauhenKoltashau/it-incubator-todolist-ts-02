@@ -1,8 +1,8 @@
 import { rootReducer, store} from "../app/store";
 import {ThunkAction, ThunkDispatch} from "redux-thunk";
-import {TodolistTypeAC} from "../features/TodolistList/todolists-reducer";
-import {AppReducerActionsType} from "../app/app-reducer";
 import {FieldErrorType} from "../api/types";
+import {AppReducerActionsType} from "../app/appTypes";
+import {TodolistTypeAC} from "../features/TodolistList/todolists-TasksTypes";
 
 export type RootReducerType = typeof rootReducer
 export type AppRootState = ReturnType<typeof store.getState>

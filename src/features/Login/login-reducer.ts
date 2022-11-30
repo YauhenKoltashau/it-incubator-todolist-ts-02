@@ -1,9 +1,10 @@
 import {authAPI, LoginParamsType} from "../../api/auth-api";
-import {AuthMeThunk} from "./auth-reducer";
 import {handleAsyncServerAppError, handleAsyncServerNetworkError} from "../../utils/error-utils";
-import {setAppStatusAC} from "../../app/app-reducer";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {ThunkError} from "../../utils/types";
+import {activeAppStatusLoading, activeAppStatusSucceded} from "../../common/AppCommonActions";
+import {loginActions} from "./index";
+import {LoginStateType} from "./loginTypes";
 //  new v
 //state
 const initialState: LoginStateType = {
@@ -12,15 +13,15 @@ const initialState: LoginStateType = {
     rememberMe: false,
 }
 // thunk creators
-export const LoginThunk = createAsyncThunk<{param: LoginParamsType }, LoginParamsType ,
-    ThunkError
-    >('login/LoginThunk', async (param: LoginParamsType, thunkAPI) => {
-    thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
+export const LoginThunk = createAsyncThunk<{ param: LoginParamsType }, LoginParamsType,
+    ThunkError>('login/LoginThunk', async (param: LoginParamsType, thunkAPI) => {
+    const dispatch = thunkAPI.dispatch
+    activeAppStatusLoading(dispatch)
     try {
         const res = await authAPI.login(param)
         if (res.data.resultCode === 0) {
-            thunkAPI.dispatch(AuthMeThunk({}))
-            thunkAPI.dispatch(setAppStatusAC({status: 'succeded'}))
+            dispatch(loginActions.AuthMeThunk({}))
+            activeAppStatusSucceded(dispatch)
             return {param}
         } else {
             return handleAsyncServerAppError(res.data, thunkAPI)
@@ -31,13 +32,14 @@ export const LoginThunk = createAsyncThunk<{param: LoginParamsType }, LoginParam
     }
 })
 export const LogoutThunk = createAsyncThunk('login/LogoutThunk', async (param: {}, thunkAPI) => {
-    thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
+    const dispatch = thunkAPI.dispatch
+    activeAppStatusLoading(dispatch)
     try {
         const res = await authAPI.logout()
         if (res.data.resultCode === 0) {
             // dispatch(setLogoutUserAC())
-            thunkAPI.dispatch(AuthMeThunk({}))
-            thunkAPI.dispatch(setAppStatusAC({status: 'succeded'}))
+            dispatch(loginActions.AuthMeThunk({}))
+            activeAppStatusSucceded(dispatch)
         } else {
             return handleAsyncServerAppError(res.data, thunkAPI)
         }
@@ -53,26 +55,20 @@ export const asyncActions = {
 export const slice = createSlice({
     name: 'login',
     initialState: initialState,
-    reducers: {
-    },
+    reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(LoginThunk.fulfilled, (state, action) => {
-            state.email = action.payload.param.email;
-            state.password = action.payload.param.password;
-            state.rememberMe = action.payload.param.rememberMe
-        })
+        builder
+            .addCase(LoginThunk.fulfilled, (state, action) => {
+                state.email = action.payload.param.email;
+                state.password = action.payload.param.password;
+                state.rememberMe = action.payload.param.rememberMe
+            })
     }
 })
 //reducer
 export const LoginReducer = slice.reducer
-//types
-export type LoginStateType = {
-    email: string | null
-    password: string | null
-    rememberMe: boolean
-}
 
-                                    //old v
+//old v
 // const _initialState: LoginStateType = {
 //     email: null,
 //     password: null,
