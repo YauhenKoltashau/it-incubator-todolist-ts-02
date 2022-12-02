@@ -2,7 +2,6 @@ import React, {useEffect} from 'react';
 import './App.css';
 import {CircularProgress, Container, Grid} from "@material-ui/core";
 import {Route, Routes} from "react-router-dom";
-import {TaskType} from "../api/tasks-api";
 import {useAppDispatch, useAppSelector} from "./hooks";
 import {ErrorSnackbar} from "../components/ErrorSnackBar/ErrorSnackBar";
 
