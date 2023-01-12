@@ -6,7 +6,7 @@ import {Login} from "../../features/Login";
 
 export const RoutesBlock = (props: { demo?: boolean }) => {
     const routing = useRoutes([
-        {path: '/', element: <TodolistList demo={props.demo}/>},
+        {path: '*', element: <TodolistList demo={props.demo}/>},
         {path: '/login', element: <Login/> }
 ]);
     return <>{routing}</>;

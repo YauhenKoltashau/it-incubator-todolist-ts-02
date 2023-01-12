@@ -24,6 +24,7 @@ type PropsType = {
 //     }
 
 export const TodolistList = React.memo(({demo = false}: PropsType) => {
+    debugger
     const todolists = useAppSelector(state => state.todolists)
     const isAuth = useAppSelector(state => state.auth.isAuth)
     const dispatch = useAppDispatch()
