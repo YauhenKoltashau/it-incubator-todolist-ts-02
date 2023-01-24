@@ -23,11 +23,11 @@ type PropsType = {
 //         }
 //     }
 
-export const TodolistList = React.memo(({demo = false}: PropsType) => {
-    debugger
+export const TodolistList = ({demo = false}: PropsType) => {
     const todolists = useAppSelector(state => state.todolists)
     const isAuth = useAppSelector(state => state.auth.isAuth)
     const dispatch = useAppDispatch()
+    console.log('todo123')
     const {fetchTodolistsThunk} = useActions(todolistsActions)
     const addTodolistHandler = useCallback(async (title, helper: AddItemFormSubmitHelperType) => {
         const resultAction = await dispatch(todolistsActions.addTodolistThunk({title}));
@@ -46,7 +46,9 @@ export const TodolistList = React.memo(({demo = false}: PropsType) => {
 
     useEffect(() => {
         if (!demo && isAuth) {
-            fetchTodolistsThunk()
+            if(!todolists.length){
+                fetchTodolistsThunk()
+            }
         }
     }, [])
 
@@ -102,4 +104,4 @@ export const TodolistList = React.memo(({demo = false}: PropsType) => {
 
     )
 
-})
+}

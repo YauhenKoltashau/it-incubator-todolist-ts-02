@@ -18,10 +18,10 @@ type PropsType = {
 const App = React.memo(function ({demo = false}: PropsType) {
     const initializeState = useAppSelector(selectIsInitialized)
     const {initializeAppThunk}=useActions(appActions)
-    console.log('hhhh')
+    console.log('app12')
 
     useEffect(() => {
-        !demo&&
+        !demo&&!initializeState&&
         initializeAppThunk()
     }, [])
 

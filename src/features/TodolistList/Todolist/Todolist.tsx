@@ -18,6 +18,7 @@ type PropsType = {
 
 export const Todolist = React.memo(function ({demo = false, ...props}: PropsType) {
     console.log('Todolist is rendered')
+    console.log('tasks123')
     //selector
     const tasks = useAppSelector(selectTasks)[props.todolist.id]
     const serverError = useAppSelector(state=>state.app.error)
@@ -28,7 +29,10 @@ export const Todolist = React.memo(function ({demo = false, ...props}: PropsType
 
     useEffect(() => {
         if (!demo) {
-            fetchTasksThunk({todolistId: props.todolist.id})
+            if(!tasks.length){
+                fetchTasksThunk({todolistId: props.todolist.id})
+            }
+
         }
     }, [])
     const addTaskHandler = useCallback(async (title, helper: AddItemFormSubmitHelperType) => {

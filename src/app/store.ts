@@ -1,19 +1,10 @@
-import {combineReducers} from "redux";
 import thunkMiddleware from "redux-thunk";
 import {configureStore} from "@reduxjs/toolkit";
-import {tasksReducer, todolistsReducer} from "../features/TodolistList";
-import {authReducer, loginReducer} from "../features/Login";
-import {appReducer} from "./";
+import {rootReducer} from "./reducers";
 
-//root reducer
-export const rootReducer = combineReducers({
-    todolists: todolistsReducer,
-    tasks: tasksReducer,
-    app: appReducer,
-    login: loginReducer,
-    auth: authReducer
-})
 //root store
+
+
 export const store = configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(thunkMiddleware)
@@ -21,6 +12,12 @@ export const store = configureStore({
 // export type AppDispatchType = typeof store.dispatch
 // @ts-ignore
 window.store = store
+
+if (process.env.NODE_ENV !== 'production' && module.hot) {
+    module.hot.accept('./reducers', () =>{
+        store.replaceReducer(rootReducer)
+    })
+}
 
 
 // export const store = createStore(rootReducer,applyMiddleware(thunkMiddleware))
